@@ -77,9 +77,9 @@ $(document).ready(function(){
         }
     })
 });
-
+var keyGameCount = 5;
 function keyGame(){
-    
+    $(".input_keys").css("display","block");
     $("#key_game").removeClass("offScreen");
     var arrows = ["key_down.png", "key_up.png","key_left.png","key_right.png"];
     var steps = [0,0,0,0,0];
@@ -107,12 +107,20 @@ function keyGame(){
     },50);
     function ClearKeyGame(){
         clearInterval(downloadTimer);
-        $("#key_game").addClass("offScreen");
-    
+        if(keyGameCount>1){
+            keyGameCount--;
+            console.log(keyGameCount);
+            keyGame();
+        }
+        else{
+            $("#key_game").addClass("offScreen");
+        }
+
+
     }
     function FailKeyGame(){
+        keyGameCount=5;
         clearInterval(downloadTimer);
-        $(".input_keys").css("display","block");
         $("#key_game").addClass("offScreen");
         bossHp+=10*level;
     }

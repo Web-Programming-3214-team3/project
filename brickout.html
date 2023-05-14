@@ -1,11 +1,19 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <link rel="text/css" rel="stylesheet" href="brickout.css">
+        <link type="text/css" rel="stylesheet" href="brickout.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="brickout.js"></script>
     </head>
     <body>
-        
+        <div id="startScreen">
+            <button id="topLevel">난이도 : 상</button>
+            <button id="middleLevel">난이도 : 중</button>
+            <button id="lowLevel">난이도 : 하</button>
+            
+        </div>
+        <div id="main_game" class="offScreen">
+            <canvas id="gameScreen" width="500" height="700"></canvas>
+        </div>
     </body>
 </html>

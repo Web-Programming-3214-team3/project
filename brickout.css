@@ -8,3 +8,9 @@ body{
 a{
     text-decoration : none;
 }
+.offScreen{
+    display:none;
+}
+#gameScreen{
+    background-color: yellow;
+}

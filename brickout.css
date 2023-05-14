@@ -1,13 +1,19 @@
-*{
-    margin : 0;
-    padding : 0;
+@font-face {
+    font-family:"bitbit";
+    src:url('bitbit.ttf');
 }
 
-a{
+* {
+    margin : 0;
+    padding : 0;
+    font-family: "bitbit";
+}
+
+a {
     text-decoration : none;
 }
 
-body{
+body {
     margin : 0 auto;
     width: 800px; height: 600px;
 }
@@ -21,50 +27,81 @@ body{
     width: 800px;
     text-align: center;
     line-height: 200px;
+    font-size: 75px;
 }
 
 #startScreen button {
     display: block;
     margin: 10px 324px;
     width: 160px; height: 80px;
-    /*font set*/
+    font-size: 30px;
     background-color: lightgreen;
     border: 8px solid green;
+}
+
+#settingPage {
+    overflow: hidden;
+    width: 800px; height: 600px;
+    background-color: skyblue;
+}
+
+#settingPage #title {
+    margin-left: 100px;
+    line-height: 200px;
+    font-size: 75px;
+}
+
+#settingPage p {
+    display: block;
+    float: left;
+    margin: 10px 20px 10px 90px;
+    font-size: 30px;
+}
+
+#settingPage #indent {
+    margin-left: 114px;
+}
+
+#settingPage input {
+    display: block;
+    float: left;
+    margin: 15px 0;
+    width: 300px;
 }
 
 canvas {
     width: 800px; height: 600px;
 }
 
-.offScreen{
+.offScreen {
     display:none;
 }
 
-#gameScreen{
+#gameScreen {
     background-color: yellow;
 }
-#key_game{
+#key_game {
     width:400px;
     height:100px;
     border-style: solid;   
 
 }
-.input_keys{
+.input_keys {
     float:left;
     padding: 10px 5px;
 }
-.key_img{
+.key_img {
     width:70px;
     height:70px;
 
 }
-.game_CountBar{
+.game_CountBar {
     width: 360px;
     height:10px;
     border:1px solid rgb(233,8,8);
     background-color:rgba(189,184,184,0.788);
 }
-.game_CountBar div{
+.game_CountBar div {
 
     width:100%;
     height:10px;

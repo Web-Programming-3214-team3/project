@@ -31,6 +31,14 @@ $(document).ready(function(){
         $("#startScreen").addClass("offScreen");
         $("#settingPage").removeClass("offScreen");
     });
+
+    $("#soundEffect").on("click", function () {
+        $("#soundEffectNum").text($(this).val());
+    });
+
+    $("#BGM").on("click", function () {
+        $("#BGMNum").text($(this).val());
+    });
 });
 
 function keyGame(){

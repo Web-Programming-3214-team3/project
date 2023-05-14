@@ -78,3 +78,6 @@ canvas {
     height:10px;
     background-color:red;
 }
+#key_game_textField{
+    opacity:0;
+}

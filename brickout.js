@@ -1,6 +1,8 @@
 var level = 2;
 var bossHp = 100*level; // 보스체력
-var velocity = level; // 벽돌 떨어지는 속도, 미니게임 속도
+var velocity = level;   // 벽돌 떨어지는 속도, 미니게임 속도
+var soundEffect = 5;    // 효과음 크기
+var BGM = 5;            // 배경음악 크기
 $(document).ready(function(){
 
 
@@ -8,7 +10,7 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        keyGame();
+        //keyGame();
     });
 
     $("#levelButton").on("click", function () {
@@ -25,6 +27,7 @@ $(document).ready(function(){
             level = 1;
             $(this).text("난이도 : 하");
         }
+        console.log("level :", level);
         bossHp = 100*level;
         velocity = level;
     });
@@ -36,10 +39,14 @@ $(document).ready(function(){
 
     $("#soundEffect").on("click", function () {
         $("#soundEffectNum").text($(this).val());
+        soundEffect = parseInt($(this).val());
+        console.log("sound effect :", soundEffect);
     })
 
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
+        BGM = parseInt($(this).val());
+        console.log("BGM :", BGM);
     })
 
     $("#key_game_textField").keydown(function(e){

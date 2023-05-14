@@ -7,7 +7,7 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-    })
+    });
 
     $("#levelButton").on("click", function () {
         var levelText = $(this).text();
@@ -26,4 +26,9 @@ $(document).ready(function(){
         bossHp = 100*level;
         velocity = level;
     });
-})
+
+    $("#settingButton").on("click", function () {
+        $("#startScreen").addClass("offScreen");
+        $("#settingPage").removeClass("offScreen");
+    });
+});

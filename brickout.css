@@ -43,3 +43,30 @@ canvas {
 #gameScreen{
     background-color: yellow;
 }
+#key_game{
+    width:400px;
+    height:100px;
+    border-style: solid;   
+
+}
+.input_keys{
+    float:left;
+    padding: 10px 5px;
+}
+.key_img{
+    width:70px;
+    height:70px;
+
+}
+.game_CountBar{
+    width: 360px;
+    height:10px;
+    border:1px solid rgb(233,8,8);
+    background-color:rgba(189,184,184,0.788);
+}
+.game_CountBar div{
+
+    width:100%;
+    height:10px;
+    background-color:red;
+}

@@ -32,3 +32,17 @@ $(document).ready(function(){
         $("#settingPage").removeClass("offScreen");
     });
 });
+
+function keyGame(){
+    
+    $("#key_game").removeClass("offScreen");
+    var arrows = ["key_down.png", "key_up.png","key_left.png","key_right.png"];
+    var steps = [0,0,0,0,0];
+    for(var i = 0; i<5;i++){
+        steps[i] = Math.floor(Math.random()*4);
+    }
+    var keyImg = $(".key_img").get();
+    for(var i = 0; i<5; i++){
+        keyImg[i].src = arrows[steps[i]];
+    }
+}

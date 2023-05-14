@@ -2,15 +2,44 @@
     margin : 0;
     padding : 0;
 }
-body{
-    margin : 0 auto;
-}
+
 a{
     text-decoration : none;
 }
+
+body{
+    margin : 0 auto;
+    width: 800px; height: 600px;
+}
+
+#startScreen {
+    width: 800px; height: 600px;
+    background-color: skyblue;
+}
+
+#startScreen h1 {
+    width: 800px;
+    text-align: center;
+    line-height: 200px;
+}
+
+#startScreen button {
+    display: block;
+    margin: 10px 324px;
+    width: 160px; height: 80px;
+    /*font set*/
+    background-color: lightgreen;
+    border: 8px solid green;
+}
+
+canvas {
+    width: 800px; height: 600px;
+}
+
 .offScreen{
     display:none;
 }
+
 #gameScreen{
     background-color: yellow;
 }

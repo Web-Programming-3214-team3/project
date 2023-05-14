@@ -1,12 +1,14 @@
+var level = 2;
+var bossHp = 100*level; // 보스체력
+var velocity = level; // 벽돌 떨어지는 속도, 미니게임 속도
 $(document).ready(function(){
 
-    var level = 2;
-    var bossHp = 100*level; // 보스체력
-    var velocity = level; // 벽돌 떨어지는 속도
+
 
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
+        keyGame();
     })
 
     $("#levelButton").on("click", function () {
@@ -39,4 +41,15 @@ function keyGame(){
     for(var i = 0; i<5; i++){
         keyImg[i].src = arrows[steps[i]];
     }
+    var timeleft = 10/level;
+    var timer = 100;
+    var downloadTimer = setInterval(function(){
+        if(timer<=0){
+            clearInterval(downloadTimer);
+        }
+        console.log(timeleft);
+        $(".count_Mainbar").css("width",timer+"%");
+        timeleft -=0.05;
+        timer -= level;
+    },50);
 }

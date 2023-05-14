@@ -8,7 +8,7 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        //keyGame();
+        keyGame();
     });
 
     $("#levelButton").on("click", function () {
@@ -33,6 +33,15 @@ $(document).ready(function(){
         $("#startScreen").addClass("offScreen");
         $("#settingPage").removeClass("offScreen");
     });
+
+    $("#soundEffect").on("click", function () {
+        $("#soundEffectNum").text($(this).val());
+    })
+
+    $("#BGM").on("click", function () {
+        $("#BGMNum").text($(this).val());
+    })
+
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
         var i = 0;

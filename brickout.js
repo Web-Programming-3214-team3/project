@@ -5,12 +5,22 @@ var soundEffect = 5;    // 효과음 크기
 var BGM = 5;            // 배경음악 크기
 $(document).ready(function(){
 
+    $(".menuButton").mouseover(function () {
+        $(this).css("font-size", "33px");
+    });
 
+    $(".menuButton").mouseout(function () {
+        $(this).css("font-size", "30px");
+    });
+
+    $(".menuButton").mousedown(function () {
+        $(this).css("text-shadow", "0 0 0 0");
+    });
 
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        //keyGame();
+        keyGame();
     });
 
     $("#levelButton").on("click", function () {
@@ -35,6 +45,11 @@ $(document).ready(function(){
     $("#settingButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#settingPage").removeClass("offScreen");
+    });
+
+    $("#homeButton").on("click", function () {
+        $("#settingPage").addClass("offScreen");
+        $("#startScreen").removeClass("offScreen");
     });
 
     $("#soundEffect").on("click", function () {

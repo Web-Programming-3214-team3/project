@@ -26,21 +26,29 @@ body {
 #startScreen h1 {
     width: 800px;
     text-align: center;
-    line-height: 200px;
+    line-height: 280px;
     font-size: 75px;
 }
 
 #startScreen button {
+    background: none;
+    background-image: url("menu_button.png");
+    background-size: 160px 80px;
     display: block;
-    margin: 10px 324px;
+    margin: 15px 324px;
     width: 160px; height: 80px;
-    font-size: 30px;
-    background-color: lightgreen;
-    border: 8px solid green;
-    border-radius: 15px;
+    font-size: 30px; 
+    border: none;
+    text-shadow: 0 3px 0 darkgreen;
+}
+
+#startScreen button:active {
+    padding-top: 3px;
+    text-shadow: none;
 }
 
 #settingPage {
+    position: relative;
     overflow: hidden;
     width: 800px; height: 600px;
     background-color: skyblue;
@@ -51,6 +59,13 @@ body {
     margin-bottom: 80px;
     line-height: 200px;
     font-size: 75px;
+}
+
+#settingPage img {
+    position: absolute;
+    top: 69px;
+    right: 100px;
+    width: 60px;
 }
 
 #settingPage p {
@@ -67,7 +82,7 @@ body {
 #settingPage input {
     display: block;
     float: left;
-    margin: 15px 0;
+    margin: 15px 0 15px 75px;
     width: 300px;
 }
 

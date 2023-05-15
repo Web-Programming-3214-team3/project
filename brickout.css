@@ -86,6 +86,16 @@ body {
     width: 300px;
 }
 
+#sotryScreen {
+    width: 800px; height: 600px;
+    background-color: black;
+}
+
+.storyScene {
+    width: 800px; height: 600px;
+    background-color: black;
+}
+
 canvas {
     width: 800px; height: 600px;
 }

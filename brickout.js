@@ -4,7 +4,6 @@ var velocity = level;   // 벽돌 떨어지는 속도, 미니게임 속도
 var soundEffect = 5;    // 효과음 크기
 var BGM = 5;            // 배경음악 크기
 $(document).ready(function(){
-
     $(".menuButton").mouseover(function () {
         $(this).css("font-size", "33px");
     });
@@ -15,12 +14,6 @@ $(document).ready(function(){
 
     $(".menuButton").mousedown(function () {
         $(this).css("text-shadow", "0 0 0 0");
-    });
-
-    $("#startButton").on("click", function () {
-        $("#startScreen").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
-        keyGame();
     });
 
     $("#levelButton").on("click", function () {
@@ -56,13 +49,20 @@ $(document).ready(function(){
         $("#soundEffectNum").text($(this).val());
         soundEffect = parseInt($(this).val());
         console.log("sound effect :", soundEffect);
-    })
+    });
 
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
         BGM = parseInt($(this).val());
         console.log("BGM :", BGM);
-    })
+    });
+
+    $("#startButton").on("click", function () {
+        $("#startScreen").addClass("offScreen");
+        $("#storyScreen").removeClass("offScreen");
+        //$("#main_game").removeClass("offScreen");
+        //keyGame();
+    });
 
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();

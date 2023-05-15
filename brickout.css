@@ -32,18 +32,18 @@ body {
 
 #startScreen button {
     background: none;
-    background-image: url("menu_button.png");
+    background-image: url("button_background.png");
     background-size: 160px 80px;
+    border: none;
     display: block;
     margin: 15px 324px;
     width: 160px; height: 80px;
     font-size: 30px; 
-    border: none;
     text-shadow: 0 3px 0 darkgreen;
 }
 
 #startScreen button:active {
-    padding-top: 3px;
+    line-height: 86px;
     text-shadow: none;
 }
 
@@ -88,12 +88,33 @@ body {
 
 #sotryScreen {
     width: 800px; height: 600px;
-    background-color: black;
+    background-color: gray;
 }
 
 .storyScene {
+    position: relative;
     width: 800px; height: 600px;
-    background-color: black;
+    background-color: gray;
+}
+
+.skipButton {
+    background: none;
+    background-image: url("button_background.png");
+    background-size: 100px 50px;
+    border: none;
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    width: 100px; height: 50px;
+    font-size: 30px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 2px 0 darkgreen;
+}
+
+.skipButton:active {
+    line-height: 56px;
+    text-shadow: none;
 }
 
 canvas {

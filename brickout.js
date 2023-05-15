@@ -12,10 +12,6 @@ $(document).ready(function(){
         $(this).css("font-size", "30px");
     });
 
-    $(".menuButton").mousedown(function () {
-        $(this).css("text-shadow", "0 0 0 0");
-    });
-
     $("#levelButton").on("click", function () {
         var levelText = $(this).text();
         if (levelText == "난이도 : 하") {
@@ -60,7 +56,29 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
-        //$("#main_game").removeClass("offScreen");
+    });
+
+    $(".skipButton").mouseover(function () {
+        $(this).css("font-size", "33px");
+    });
+
+    $(".skipButton").mouseout(function () {
+        $(this).css("font-size", "30px");
+    });
+
+    $("#skip1").on("click", function () {
+        $("#scene1").addClass("offScreen");
+        $("#scene2").removeClass("offScreen");
+    });
+
+    $("#skip2").on("click", function () {
+        $("#scene2").addClass("offScreen");
+        $("#scene3").removeClass("offScreen");
+    });
+
+    $("#skip3").on("click", function () {
+        $("#scene3").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
         //keyGame();
     });
 

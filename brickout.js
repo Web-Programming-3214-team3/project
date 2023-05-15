@@ -1,9 +1,12 @@
-var level = 2;
-var bossHp = 100*level; // 보스체력
-var velocity = level;   // 벽돌 떨어지는 속도, 미니게임 속도
-var soundEffect = 5;    // 효과음 크기
-var BGM = 5;            // 배경음악 크기
+var level = 2;              // 난이도 기본 설정 : 중(2)
+var bossHP = 1000*level;    // 보스체력
+var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
+var soundEffect = 5;        // 효과음 크기
+var BGM = 5;                // 배경음악 크기
+var keyGameCount = 5;       // Key Game 반복 횟수
+
 $(document).ready(function(){
+    // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
         $(this).css("font-size", "33px");
     });
@@ -12,6 +15,7 @@ $(document).ready(function(){
         $(this).css("font-size", "30px");
     });
 
+    // 난이도 변경 버튼 : 누를 때마다 난이도 변경(loop)
     $("#levelButton").on("click", function () {
         var levelText = $(this).text();
         if (levelText == "난이도 : 하") {
@@ -27,37 +31,43 @@ $(document).ready(function(){
             $(this).text("난이도 : 하");
         }
         console.log("level :", level);
-        bossHp = 100*level;
+        bossHP = 100*level;
         velocity = level;
     });
 
+    // 환경 설정 버튼 : 누르면 환경설정으로 이동
     $("#settingButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#settingPage").removeClass("offScreen");
     });
 
+    // 홈 버튼 : 환경 설정에서 시작 화면으로 이동
     $("#homeButton").on("click", function () {
         $("#settingPage").addClass("offScreen");
         $("#startScreen").removeClass("offScreen");
     });
 
+    // 효과음 수정
     $("#soundEffect").on("click", function () {
         $("#soundEffectNum").text($(this).val());
         soundEffect = parseInt($(this).val());
         console.log("sound effect :", soundEffect);
     });
 
+    // 배경음악 수정
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
         BGM = parseInt($(this).val());
         console.log("BGM :", BGM);
     });
 
+    // 게임 시작 버튼
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
     });
 
+    // 스토리 스킵 버튼 설정
     $(".skipButton").mouseover(function () {
         $(this).css("font-size", "33px");
     });
@@ -66,20 +76,22 @@ $(document).ready(function(){
         $(this).css("font-size", "30px");
     });
 
+    // 스토리 씬#1 스킵하면 씬#2 등장; 정확한 씬 개수는 아직 안정함.
     $("#skip1").on("click", function () {
         $("#scene1").addClass("offScreen");
         $("#scene2").removeClass("offScreen");
     });
 
+    // 스토리 씬#2 스킵하면 씬#3 등장
     $("#skip2").on("click", function () {
         $("#scene2").addClass("offScreen");
         $("#scene3").removeClass("offScreen");
     });
 
+    // 스토리 씬#1 스킵하면 메인 게임 시작
     $("#skip3").on("click", function () {
         $("#scene3").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        //keyGame();
     });
 
     $("#key_game_textField").keydown(function(e){
@@ -110,7 +122,8 @@ $(document).ready(function(){
         }
     })
 });
-var keyGameCount = 5;
+
+// Key Game 함수
 function keyGame(){
     $(".input_keys").css("display","block");
     $("#key_game").removeClass("offScreen");
@@ -155,6 +168,6 @@ function keyGame(){
         keyGameCount=5;
         clearInterval(downloadTimer);
         $("#key_game").addClass("offScreen");
-        bossHp+=10*level;
+        bossHP+=10*level;
     }
 }

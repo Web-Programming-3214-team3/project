@@ -12,11 +12,16 @@ var mainGameCanvas = document.getElementById("mainGameCanvas");
 $(document).ready(function(){
     // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
-        $(this).css("font-size", "33px");
+        $(this).css({"text-shadow":"0 3px 0 darkgreen", "font-size":"35px"});
     });
-
+    $(".menuButton").mousedown(function () {
+        $(this).css({"text-shadow":"none", "line-height":"86px"});
+    });
+    $(".menuButton").mouseup(function () {
+        $(this).css({"text-shadow":"0 3px 0 darkgreen", "line-height":"80px"});
+    });
     $(".menuButton").mouseout(function () {
-        $(this).css("font-size", "30px");
+        $(this).css({"text-shadow":"none", "line-height":"80px", "font-size":"33px"});
     });
 
     // 난이도 변경 버튼 : 누를 때마다 난이도 변경(loop)
@@ -73,11 +78,13 @@ $(document).ready(function(){
 
     // 스토리 스킵 버튼 설정
     $(".skipButton").mouseover(function () {
-        $(this).css("font-size", "33px");
+        $(this).css({"font-size":"32px", "text-shadow":"0 2px 0 white"});
     });
-
+    $(".skipButton").mousedown(function () {
+        $(this).css({"bottom":"28px", "text-shadow":"none"});
+    });
     $(".skipButton").mouseout(function () {
-        $(this).css("font-size", "30px");
+        $(this).css({"font-size":"30px", "text-shadow":"none"});
     });
 
     // 스토리 씬#1 스킵하면 씬#2 등장; 정확한 씬 개수는 아직 안정함.

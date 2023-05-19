@@ -18,6 +18,10 @@ body {
     width: 800px; height: 600px;
 }
 
+.offScreen {
+    display:none;
+}
+
 #startScreen {
     width: 800px; height: 600px;
     background-color: skyblue;
@@ -117,16 +121,14 @@ body {
     text-shadow: none;
 }
 
+#gameScreen {
+    width: 800px; height: 600px;
+    background-color: aqua;
+}
+
 canvas {
     width: 800px; height: 600px;
-}
-
-.offScreen {
-    display:none;
-}
-
-#gameScreen {
-    background-color: yellow;
+    background-color: lightgray;
 }
 
 #key_game {
@@ -161,7 +163,6 @@ canvas {
 }
 
 .game_CountBar div {
-
     width:100%;
     height:10px;
     background-color:red;

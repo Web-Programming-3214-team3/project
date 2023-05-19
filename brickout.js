@@ -5,6 +5,10 @@ var soundEffect = 5;        // 효과음 크기
 var BGM = 5;                // 배경음악 크기
 var keyGameCount = 5;       // Key Game 반복 횟수
 
+// main game canvas 기본 세팅
+var mainGameCanvas = document.getElementById("mainGameCanvas");
+//var mainGameContext = mainGameCanvas.getContext('2d');
+
 $(document).ready(function(){
     // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
@@ -31,7 +35,7 @@ $(document).ready(function(){
             $(this).text("난이도 : 하");
         }
         console.log("level :", level);
-        bossHP = 100*level;
+        bossHP = 1000*level;
         velocity = level;
     });
 
@@ -156,8 +160,8 @@ function keyGame(){
         }
         $(".count_Mainbar").css("width",timer+"%");
         timeleft -=0.05;
-        timer -= level;
-    },50);
+        timer -= (level/10);
+    },5);
     function ClearKeyGame(){
         clearInterval(downloadTimer);
         if(keyGameCount>1){
@@ -183,4 +187,8 @@ function keyGame(){
         $("#key_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
     }
+}
+
+function drawBossHP() {
+
 }

@@ -120,7 +120,14 @@ $(document).ready(function(){
             console.log(keys[i]);
         
         }
-    })
+    });
+
+    // 보스의 피가 75%인 경우 Key Game 실행
+    $("#HP75").on("click", function () {
+        bossHP = bossHP * 0.75;
+        $("#main_game").addClass("offScreen");
+        keyGame();
+    });
 });
 
 // Key Game 함수
@@ -159,15 +166,21 @@ function keyGame(){
             keyGame();
         }
         else{
-            $("#key_game").addClass("offScreen");
+            //$("#key_game").addClass("offScreen");
+            console.log("Success");
+            EndKeyGame();
         }
-
-
     }
     function FailKeyGame(){
         keyGameCount=5;
         clearInterval(downloadTimer);
-        $("#key_game").addClass("offScreen");
+        //$("#key_game").addClass("offScreen");
         bossHP+=10*level;
+        console.log("Fail");
+        EndKeyGame();
+    }
+    function EndKeyGame() {
+        $("#key_game").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
     }
 }

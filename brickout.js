@@ -404,12 +404,12 @@ function drawBossHP() {
 var rows = 3;
 var columns = 3;
 var text = "";
-var blank_tile = "";
 var currTile;
 var otherTile; //blank tile
 var imgOrder = [];
 var backup = [];
 var turns = 0;
+var max_turn = 0;
 
 
 //var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
@@ -433,24 +433,25 @@ if(level == 3){
     columns = 3;
 }
 $("#board_game").removeClass("offScreen");
+    turns=0;
     if(rows == 4){
         document.getElementById("board").style.height = "480px";
         document.getElementById("board").style.width = "480px";
         imgOrder = imgOrder4x4;
         backup = imgOrder4x4;
-        blank_tile = "img4/4.jpg"; 
+        max_turn = 40; 
     }if(rows == 5){
         document.getElementById("board").style.height = "600px";
         document.getElementById("board").style.width = "600px";
         imgOrder = imgOrder5x5;
         backup = imgOrder5x5;
-        blank_tile = "img5/5.jpg"; 
+        max_turn = 50; 
     }if(rows == 3){
         document.getElementById("board").style.height = "360px";
         document.getElementById("board").style.width = "360px";
         imgOrder = imgOrder3x3;
         backup = imgOrder3x3;
-        blank_tile = "img3/3.jpg"; 
+        max_turn = 15;
     }else{}
 
     
@@ -494,6 +495,7 @@ function checkWin(){
             alert("You Win");
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
+            document.getElementById("turns").innerText = 0;
             while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
@@ -549,6 +551,17 @@ function dragEnd() {
         turns += 1;
         document.getElementById("turns").innerText = turns;
         checkWin();
+        if(turns > max_turn){
+            var parent = document.getElementById("board");
+            alert("You Lose");
+            $("#board_game").addClass("offScreen");
+            $("#main_game").removeClass("offScreen");
+            document.getElementById("turns").innerText = 0;
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }else{}
+
     }
 
 

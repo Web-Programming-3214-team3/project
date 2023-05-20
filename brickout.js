@@ -217,12 +217,12 @@ var imgOrder = [];
 var backup = [];
 
 
-var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
-var imgOrder5x5 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"];
-var imgOrder4x4 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
-//var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
-//var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
-//var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
+//var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
+//var imgOrder5x5 = ["1", "2", "3", "5", "4", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"];
+//var imgOrder4x4 = ["1", "2", "4", "3", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
+var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
+var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
+var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
 
 
 function board_game() {
@@ -243,24 +243,24 @@ $("#board_game").removeClass("offScreen");
         document.getElementById("board").style.width = "480px";
         imgOrder = imgOrder4x4;
         backup = imgOrder4x4;
-        blank_tile = "4.jpg"; 
+        blank_tile = "img4/4.jpg"; 
     }if(rows == 5){
         document.getElementById("board").style.height = "600px";
         document.getElementById("board").style.width = "600px";
         imgOrder = imgOrder5x5;
         backup = imgOrder5x5;
-        blank_tile = "5.jpg"; 
+        blank_tile = "img5/5.jpg"; 
     }if(rows == 3){
         document.getElementById("board").style.height = "360px";
         document.getElementById("board").style.width = "360px";
         imgOrder = imgOrder3x3;
         backup = imgOrder3x3;
-        blank_tile = "3.jpg"; 
+        blank_tile = "img3/3.jpg"; 
     }else{}
 
     
-    for (let r=0; r < rows; r++) {
-        for (let c=0; c < columns; c++) {
+    for (let r=1; r <= rows; r++) {
+        for (let c=1; c <= columns; c++) {
             //<img id="0-0" src="1.jpg">
             let tile = document.createElement("img");
             tile.id = r.toString() + "-" + c.toString();
@@ -283,13 +283,15 @@ $("#board_game").removeClass("offScreen");
 function checkWin(){
     var parent = document.getElementById("board");
     var winning_cond = 0;
+    var img_src= [];
+    var child  = [];
+    var max = parent.childNodes.length;
     for(i=1; i <= parent.childNodes.length; i++){
-        var child = parent.childNodes[i];
-        let img_src = child.src;
+         child  = parent.childNodes[i];
+         img_src= child.src;
         let arr = img_src.split("/");
         let arr2 = arr.pop().split(".");
         text = arr2[0];
-        alert(text);
         if(i == parseInt(text)){
             winning_cond++
         }else{
@@ -299,7 +301,7 @@ function checkWin(){
             alert("You Win");
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
-            while(parent.hasChildNodes()){
+            for(j=0; j <= max; j++) {
                 parent.removeChild(parent.firstChild);
             }
         }

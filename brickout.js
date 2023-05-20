@@ -215,6 +215,7 @@ var currTile;
 var otherTile; //blank tile
 var imgOrder = [];
 var backup = [];
+var turns = 0;
 
 
 //var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
@@ -259,8 +260,8 @@ $("#board_game").removeClass("offScreen");
     }else{}
 
     
-    for (let r=1; r <= rows; r++) {
-        for (let c=1; c <= columns; c++) {
+    for (let r=0; r < rows; r++) {
+        for (let c=0; c < columns; c++) {
             //<img id="0-0" src="1.jpg">
             let tile = document.createElement("img");
             tile.id = r.toString() + "-" + c.toString();
@@ -283,12 +284,10 @@ $("#board_game").removeClass("offScreen");
 function checkWin(){
     var parent = document.getElementById("board");
     var winning_cond = 0;
-    var img_src= [];
-    var child  = [];
-    var max = parent.childNodes.length;
-    for(i=1; i <= parent.childNodes.length; i++){
-         child  = parent.childNodes[i];
-         img_src= child.src;
+    
+    for(i=1; i < parent.childNodes.length; i++){
+        var child= parent.childNodes[i];
+        var img_src  = child.src;
         let arr = img_src.split("/");
         let arr2 = arr.pop().split(".");
         text = arr2[0];
@@ -301,7 +300,7 @@ function checkWin(){
             alert("You Win");
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
-            for(j=0; j <= max; j++) {
+            while (parent.firstChild) {
                 parent.removeChild(parent.firstChild);
             }
         }
@@ -329,9 +328,7 @@ function dragDrop() {
 }
 
 function dragEnd() {
-    if (!otherTile.src.includes(blank_tile)) {
-        return;
-    }
+    
 
     let currCoords = currTile.id.split("-"); //ex) "0-0" -> ["0", "0"]
     let r = parseInt(currCoords[0]);
@@ -355,7 +352,8 @@ function dragEnd() {
 
         currTile.src = otherImg;
         otherTile.src = currImg;
-
+        turns += 1;
+        document.getElementById("turns").innerText = turns;
         checkWin();
     }
 

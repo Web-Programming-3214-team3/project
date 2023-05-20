@@ -5,8 +5,36 @@ var soundEffect = 5;        // 효과음 크기
 var BGM = 5;                // 배경음악 크기
 var keyGameCount = 5;       // Key Game 반복 횟수
 
+
+
+
+var width, height;
+var x = 150, y = 400, radius = 10;
+var dx = 5, dy = 5;
+
+var x_left, x_right;
+var is_gameover = false;
+
+//paddle
+var paddlex, paddle_height, paddle_width;
+var move_left = false, move_right = false;
+
+//bricks
+var bricks;
+var row_number; // 벽돌의 행 갯수
+var col_number; // 벽돌의 열 갯수
+var brick_width;
+var brick_height;
+var PADDING;
+
+var context;
+var animation;
+        
+var boss_life = 100;
+var my_life = 3;
+
 // main game canvas 기본 세팅
-var mainGameCanvas = document.getElementById("mainGameCanvas");
+//var mainGameCanvas = document.getElementById("mainGameCanvas");
 //var mainGameContext = mainGameCanvas.getContext('2d');
 
 $(document).ready(function(){
@@ -99,11 +127,31 @@ $(document).ready(function(){
         $("#scene3").removeClass("offScreen");
     });
 
-    // 스토리 씬#1 스킵하면 메인 게임 시작
+    // 스토리 씬#3 스킵하면 메인 게임 시작
     $("#skip3").on("click", function () {
         $("#scene3").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
+         main_game();
+            init_faddle(); 
+            init_bricks();
     });
+
+    $(document).on('keydown', function(e) {
+        if (e.which == 37) {
+            move_left = true;
+        } else if (e.which == 39) {
+            move_right = true;
+        }
+    });
+
+    $(document).on('keyup', function(e) {
+        if (e.which == 37) {
+            move_left = false;
+        } else if (e.which == 39) {
+            move_right = false;
+        }
+    });
+
 
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
@@ -133,6 +181,7 @@ $(document).ready(function(){
         }
     });
 
+
     // 보스의 피가 75%인 경우 Key Game 실행
     $("#HP75").on("click", function () {
         bossHP = bossHP * 0.75;
@@ -146,6 +195,151 @@ $(document).ready(function(){
         board_game();
     });
 });
+
+//brick out 함수
+function main_game() {
+    //canvas 가져오기
+    var $c = $('#mainGameCanvas');
+    context = $c.get(0).getContext('2d');
+    width = $c.width();
+    height = $c.height();
+
+    x_left = $c.offset().left;
+    x_right = $c.offset().right;
+    
+    animation = window.requestAnimationFrame(draw);
+}
+function draw() {
+    clear();
+    draw_life();
+    draw_boss_life();
+    //draw ball
+    ball(x, y, radius);
+
+    //draw paddle
+    rect(paddlex, height - paddle_height, paddle_width, paddle_height);
+
+    //draw bricks
+    for (i = 0; i < row_number; i++) { 
+        for (j = 0; j < col_number; j++) {
+            if (bricks[i][j] >= 30) {    
+                rect(j * brick_width, i * brick_height+ 200, brick_width - 1, brick_height -1); // +200 지움
+            }
+        }
+    }
+
+    //draw boss
+//    rect(width/2-30, 100, 60, 60);
+
+    //move ball
+    x += dx;
+    y += dy; 
+
+    //move pannel
+    if (move_left && paddlex > 0) { // 왼쪽으로 이동
+        paddlex -= 5;
+    }
+    if (move_right && paddlex + paddle_width < width) { // 오른쪽으로 이동
+        paddlex += 5;
+    }
+
+    //Hit Bricks
+    if(y>200){
+        var row = Math.floor( (y-200)  / (brick_height) );
+    }
+
+    var col = Math.floor( x / (brick_width));
+    if (row < row_number) { 
+        if (bricks[row][col] >= 30) {
+            dy = -dy;
+            bricks[row][col] = 0;
+        }
+    }
+    //벽에 부딪혔을 때
+    if (x >= width - radius || x <= 0 + radius) {
+        dx = -dx;
+    }
+    //천장에 부딪혔을 때
+    if (y <= 0 + radius) {
+        dy = -dy;
+    }
+    //바닥에 부딪혔을 때
+    else if (y >= height - radius) {
+        //paddle에 부딪힌다면
+        if (x > paddlex && x < paddlex + paddle_width) {
+            dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
+            dy = -dy;
+        }
+        //paddle에 부딪히지 않는다면
+        else {
+            dy = -dy;
+            my_life--;
+            if(!my_life){
+                draw();
+                is_gameover = true;
+            }
+        }
+    }
+//    if (y>100&&y<160&&x>width/2-30&&x<width/2+30){
+//        boss_life--;
+//    }
+    if (is_gameover) {
+        window.cancelAnimationFrame(anim); // 게임 종료
+    } 
+    else {
+        anim = window.requestAnimationFrame(draw); // 이어서 그림 
+    }
+}
+function clear() {
+    context.clearRect(0, 0, width, height);
+}
+
+function ball(x, y, r) {
+    context.beginPath();
+    context.arc(x, y, r, 0, Math.PI * 2, true);
+    context.closePath();
+    context.fill();
+}
+
+function rect(x, y, w, h) {
+    context.beginPath();
+    context.rect(x, y, w, h);
+    context.closePath();
+    context.fill();
+}
+
+function init_faddle() {
+    paddlex = width / 2;
+    paddle_height = 10;
+    paddle_width = 75;
+}
+
+function init_bricks() {
+    row_number = 3;
+    col_number = 4;
+    PADDING = 5;
+    brick_width = (width / col_number);
+    brick_height = 50;
+
+    bricks = new Array(row_number);
+    for (i = 0; i < row_number; i++) {
+        bricks[i] = new Array(col_number);
+        for (j = 0; j < col_number; j++) {
+            bricks[i][j] = (Math.random()*99)+1;
+        }
+    }
+}
+function draw_life(){
+    context.font = "16px Arial";
+    context.fillStyle = "#234529";
+    context.fillText("life : " + my_life, 8, 20);
+}
+function draw_boss_life(){
+    context.font = "16px Arial";
+    context.fillStyle = "#234529";
+    context.fillText("Boss : "+boss_life, width - 80, 20);
+}
+
 
 // Key Game 함수
 function keyGame(){

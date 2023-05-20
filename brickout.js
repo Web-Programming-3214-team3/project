@@ -477,7 +477,7 @@ $("#board_game").removeClass("offScreen");
     for (let r=0; r < rows; r++) {
         for (let c=0; c < columns; c++) {
             //<img id="0-0" src="1.jpg">
-            let tile = document.createElement("img");
+            var tile = document.createElement("img");
             tile.id = r.toString() + "-" + c.toString();
             tile.src = "img"+rows+"/"+imgOrder[num]+ ".jpg";
 
@@ -496,9 +496,9 @@ $("#board_game").removeClass("offScreen");
 }
 
 function checkWin(){
-    var parent = document.getElementById("board");
+    const parent = document.getElementById("board");
+    text = "";
     var winning_cond = 0;
-    
     for(i=1; i < parent.childNodes.length; i++){
         var child= parent.childNodes[i];
         var img_src  = child.src;
@@ -515,8 +515,8 @@ function checkWin(){
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
             document.getElementById("turns").innerText = 0;
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
+            while (parent.hasChildNodes()) {
+                parent.removeChild(parent.children[0]);
             }
         }
     }
@@ -543,8 +543,6 @@ function dragDrop() {
 }
 
 function dragEnd() {
-    
-
     let currCoords = currTile.id.split("-"); //ex) "0-0" -> ["0", "0"]
     let r = parseInt(currCoords[0]);
     let c = parseInt(currCoords[1]);
@@ -567,6 +565,7 @@ function dragEnd() {
 
         currTile.src = otherImg;
         otherTile.src = currImg;
+        
         turns += 1;
         document.getElementById("turns").innerText = turns;
         checkWin();
@@ -576,13 +575,11 @@ function dragEnd() {
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
             document.getElementById("turns").innerText = 0;
-            while (parent.firstChild) {
-                parent.removeChild(parent.firstChild);
+            while (parent.hasChildNodes()) {
+                parent.removeChild(parent.children[0]);
             }
         }else{}
-
     }
-
 }
 // 두더지 잡기 게임
 var moletimer;

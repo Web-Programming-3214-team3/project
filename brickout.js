@@ -131,27 +131,12 @@ $(document).ready(function(){
     $("#skip3").on("click", function () {
         $("#scene3").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-         main_game();
-            init_faddle(); 
-            init_bricks();
+        main_game(); 
+        init_paddle(); 
+        init_bricks();
     });
 
-    $(document).on('keydown', function(e) {
-        if (e.which == 37) {
-            move_left = true;
-        } else if (e.which == 39) {
-            move_right = true;
-        }
-    });
-
-    $(document).on('keyup', function(e) {
-        if (e.which == 37) {
-            move_left = false;
-        } else if (e.which == 39) {
-            move_right = false;
-        }
-    });
-
+    
 
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
@@ -196,7 +181,7 @@ $(document).ready(function(){
     });
 });
 
-//brick out 함수
+//main game 함수
 function main_game() {
     //canvas 가져오기
     var $c = $('#mainGameCanvas');
@@ -207,16 +192,34 @@ function main_game() {
     x_left = $c.offset().left;
     x_right = $c.offset().right;
     
-    animation = window.requestAnimationFrame(draw);
+    animation = window.requestAnimationFrame(draw_main_game);
 }
-function draw() {
+function draw_main_game() {
     clear();
-    draw_life();
-    draw_boss_life();
-    //draw ball
-    ball(x, y, radius);
 
-    //draw paddle
+    draw_life();
+
+    //key 입력 event
+    $(document).on('keydown', function(e) {
+        if (e.which == 37) {
+            move_left = true;
+        } 
+        else if (e.which == 39) {
+            move_right = true;
+        }
+    });
+    $(document).on('keyup', function(e) {
+        if (e.which == 37) {
+           move_left = false;
+        } else if (e.which == 39) {
+         move_right = false;
+        }
+    });
+
+    //ball 과 paddle 그리기
+    ball(x, y, radius);
+    x += dx;
+    y += dy; 
     rect(paddlex, height - paddle_height, paddle_width, paddle_height);
 
     //draw bricks
@@ -228,14 +231,7 @@ function draw() {
         }
     }
 
-    //draw boss
-//    rect(width/2-30, 100, 60, 60);
-
-    //move ball
-    x += dx;
-    y += dy; 
-
-    //move pannel
+    //paddle 움직이기
     if (move_left && paddlex > 0) { // 왼쪽으로 이동
         paddlex -= 5;
     }
@@ -243,7 +239,7 @@ function draw() {
         paddlex += 5;
     }
 
-    //Hit Bricks
+    //벽돌에 부딪혔을 때
     if(y>200){
         var row = Math.floor( (y-200)  / (brick_height) );
     }
@@ -255,14 +251,17 @@ function draw() {
             bricks[row][col] = 0;
         }
     }
+
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         dx = -dx;
     }
+
     //천장에 부딪혔을 때
     if (y <= 0 + radius) {
         dy = -dy;
     }
+
     //바닥에 부딪혔을 때
     else if (y >= height - radius) {
         //paddle에 부딪힌다면
@@ -275,19 +274,16 @@ function draw() {
             dy = -dy;
             my_life--;
             if(!my_life){
-                draw();
+                draw_main_game();
                 is_gameover = true;
             }
         }
     }
-//    if (y>100&&y<160&&x>width/2-30&&x<width/2+30){
-//        boss_life--;
-//    }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
     } 
     else {
-        anim = window.requestAnimationFrame(draw); // 이어서 그림 
+        anim = window.requestAnimationFrame(draw_main_game);
     }
 }
 function clear() {
@@ -308,12 +304,14 @@ function rect(x, y, w, h) {
     context.fill();
 }
 
-function init_faddle() {
+//main game의 paddle 설정
+function init_paddle() {
     paddlex = width / 2;
-    paddle_height = 10;
-    paddle_width = 75;
+    paddle_height = 20;
+    paddle_width = 100;
 }
 
+//main game의 벽돌 설정
 function init_bricks() {
     row_number = 3;
     col_number = 4;
@@ -329,15 +327,12 @@ function init_bricks() {
         }
     }
 }
+//main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
     context.font = "16px Arial";
     context.fillStyle = "#234529";
     context.fillText("life : " + my_life, 8, 20);
-}
-function draw_boss_life(){
-    context.font = "16px Arial";
-    context.fillStyle = "#234529";
-    context.fillText("Boss : "+boss_life, width - 80, 20);
+    context.fillText("Boss : "+bossHP, width - 90, 20);
 }
 
 

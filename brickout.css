@@ -156,3 +156,20 @@ canvas {
 #key_game_textField {
     opacity:0;
 }
+
+#board {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    border: 10px solid #0c67ae;
+
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#board img {
+    width: 118px;
+    height: 118px;
+    border: 1px solid #0c67ae;
+}

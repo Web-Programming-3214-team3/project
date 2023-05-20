@@ -139,6 +139,11 @@ $(document).ready(function(){
         $("#main_game").addClass("offScreen");
         keyGame();
     });
+    $("#HP50").on("click", function () {
+        bossHP = bossHP * 0.50;
+        $("#main_game").addClass("offScreen");
+        board_game();
+    });
 });
 
 // Key Game 함수
@@ -197,5 +202,134 @@ function keyGame(){
 }
 
 function drawBossHP() {
+
+}
+
+//Board Game 함수
+var rows = 3;
+var columns = 3;
+var text = "";
+var blank_tile = "";
+var currTile;
+var otherTile; //blank tile
+var imgOrder = [];
+var turns = 0;
+var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
+//var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
+var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
+var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
+window.onload = function board_game() {
+    if(rows == 4){
+        document.getElementById("board").style.height = "480px";
+        document.getElementById("board").style.width = "480px";
+        imgOrder = imgOrder4x4;
+        blank_tile = "4.jpg"; 
+    }if(rows == 5){
+        document.getElementById("board").style.height = "600px";
+        document.getElementById("board").style.width = "600px";
+        imgOrder = imgOrder5x5;
+        blank_tile = "5.jpg"; 
+    }if(rows == 3){
+        document.getElementById("board").style.height = "360px";
+        document.getElementById("board").style.width = "360px";
+        imgOrder = imgOrder3x3
+        blank_tile = "3.jpg"; 
+    }else{}
+
+
+    for (let r=0; r < rows; r++) {
+        for (let c=0; c < columns; c++) {
+
+            //<img id="0-0" src="1.jpg">
+            let tile = document.createElement("img");
+            tile.id = r.toString() + "-" + c.toString();
+            tile.src = "img"+rows+"/"+imgOrder.shift() + ".jpg";
+
+            //DRAG FUNCTIONALITY
+            tile.addEventListener("dragstart", dragStart);  //click an image to drag
+            tile.addEventListener("dragover", dragOver);    //moving image around while clicked
+            tile.addEventListener("dragenter", dragEnter);  //dragging image onto another one
+            tile.addEventListener("dragleave", dragLeave);  //dragged image leaving anohter image
+            tile.addEventListener("drop", dragDrop);        //drag an image over another image, drop the image
+            tile.addEventListener("dragend", dragEnd);      //after drag drop, swap the two tiles
+            document.getElementById("board").append(tile);
+            
+        }
+    }
+    
+}
+
+function checkWin(){
+    var parent = document.getElementById("board"), child;
+    var winning_cond = 0;
+    for(i=1; i < parent.childNodes.length; i++){
+        child = parent.childNodes[i];
+        let img_src = child.src;
+        let arr = img_src.split("/");
+        let arr2 = arr.pop().split(".");
+        text = arr2[0];
+        if(i == parseInt(text)){
+            winning_cond++
+        }else{
+            winning_cond = 0;
+        }
+        if (winning_cond == 9)
+            alert("You Win");
+    }
+}
+
+function dragStart() {
+    currTile = this; //this refers to the img tile being dragged
+}
+
+function dragOver(e) {
+    e.preventDefault();
+}
+
+function dragEnter(e) {
+    e.preventDefault();
+}
+
+function dragLeave() {
+
+}
+
+function dragDrop() {
+    otherTile = this; //this refers to the img tile being dropped on
+}
+
+function dragEnd() {
+    if (!otherTile.src.includes(blank_tile)) {
+        return;
+    }
+
+    let currCoords = currTile.id.split("-"); //ex) "0-0" -> ["0", "0"]
+    let r = parseInt(currCoords[0]);
+    let c = parseInt(currCoords[1]);
+
+    let otherCoords = otherTile.id.split("-");
+    let r2 = parseInt(otherCoords[0]);
+    let c2 = parseInt(otherCoords[1]);
+
+    let moveLeft = r == r2 && c2 == c-1;
+    let moveRight = r == r2 && c2 == c+1;
+
+    let moveUp = c == c2 && r2 == r-1;
+    let moveDown = c == c2 && r2 == r+1;
+
+    let isAdjacent = moveLeft || moveRight || moveUp || moveDown;
+
+    if (isAdjacent) {
+        let currImg = currTile.src;
+        let otherImg = otherTile.src;
+
+        currTile.src = otherImg;
+        otherTile.src = currImg;
+
+        turns += 1;
+        document.getElementById("turns").innerText = turns;
+        checkWin();
+    }
+
 
 }

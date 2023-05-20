@@ -173,3 +173,14 @@ canvas {
     height: 118px;
     border: 1px solid #0c67ae;
 }
+#moleground{
+    position: relative;
+    height : 1000px;
+    width : 1000px;
+    background-color: lightgrey;
+}
+#mole{
+    position: absolute;
+    height : 100px;
+    width : 100px;
+}

@@ -5,7 +5,7 @@ var soundEffect = 5;        // 효과음 크기
 var BGM = 5;                // 배경음악 크기
 var keyGameCount = 5;       // Key Game 반복 횟수
 
-
+var mole_catch=0;
 
 
 var width, height;
@@ -166,6 +166,23 @@ $(document).ready(function(){
         }
     });
 
+    $("#mole").on("click",function(){
+        mole_catch++;
+        document.getElementById("catch").innerText = mole_catch;
+        $("#mole").empty();
+        var image=$("<img>").attr("src", "catch_mole.png");
+        image.css({
+            width: 100,
+            height: 100
+        });
+        $("#mole").append(image);
+
+        clearInterval(moletimer);
+        setTimeout(function() {
+            moletimer=setInterval(mole_pop,750);
+        }, 100);
+    });
+
 
     // 보스의 피가 75%인 경우 Key Game 실행
     $("#HP75").on("click", function () {
@@ -179,6 +196,13 @@ $(document).ready(function(){
         $("#main_game").addClass("offScreen");
         board_game();
     });
+    $("#HP25").on("click", function () {
+        bossHP = bossHP * 0.25;
+        $("#main_game").addClass("offScreen");
+        wam_game();
+    });
+
+    
 });
 
 //main game 함수
@@ -559,5 +583,33 @@ function dragEnd() {
 
     }
 
-
+}
+// 두더지 잡기 게임
+var moletimer;
+function wam_game(){
+    $("#whack-a-mole_game").removeClass("offScreen");
+    moletimer=setInterval(mole_pop,750);
+}
+function mole_pop(){
+    if(mole_catch>3){
+        alert("You Win");
+        clearInterval(moletimer);
+        $("#whack-a-mole_game").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
+    }
+    else{
+        var randomX = Math.floor(Math.random() * (1000 - 100));
+        var randomY = Math.floor(Math.random() * (1000 - 100));
+        var image=$("<img>").attr("src", "mole.png");
+        image.css({
+            width: 100,
+            height: 100
+        });
+        $("#mole").empty();
+        $("#mole").css({
+            left: randomX+"px",
+            top: randomY+"px"
+        });
+        $("#mole").append(image);
+    }
 }

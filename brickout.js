@@ -139,6 +139,7 @@ $(document).ready(function(){
         $("#main_game").addClass("offScreen");
         keyGame();
     });
+    // 보스의 피가 50%인 경우 Board Game 실행
     $("#HP50").on("click", function () {
         bossHP = bossHP * 0.50;
         $("#main_game").addClass("offScreen");
@@ -218,7 +219,20 @@ var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
 //var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
 var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
 var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
-window.onload = function board_game() {
+
+
+function board_game() {
+if(level == 3){
+    rows = 5;
+    columns = 5;
+}else if(level == 2){
+    rows = 4;
+    columns = 4;
+}else{
+    rows = 3;
+    columns = 3;
+}
+$("#board_game").removeClass("offScreen");
     if(rows == 4){
         document.getElementById("board").style.height = "480px";
         document.getElementById("board").style.width = "480px";

@@ -214,7 +214,8 @@ var blank_tile = "";
 var currTile;
 var otherTile; //blank tile
 var imgOrder = [];
-var turns = 0;
+var backup = [];
+
 
 var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
 var imgOrder5x5 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"];
@@ -225,6 +226,7 @@ var imgOrder4x4 = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"
 
 
 function board_game() {
+var num = 0;
 if(level == 3){
     rows = 5;
     columns = 5;
@@ -240,27 +242,29 @@ $("#board_game").removeClass("offScreen");
         document.getElementById("board").style.height = "480px";
         document.getElementById("board").style.width = "480px";
         imgOrder = imgOrder4x4;
+        backup = imgOrder4x4;
         blank_tile = "4.jpg"; 
     }if(rows == 5){
         document.getElementById("board").style.height = "600px";
         document.getElementById("board").style.width = "600px";
         imgOrder = imgOrder5x5;
+        backup = imgOrder5x5;
         blank_tile = "5.jpg"; 
     }if(rows == 3){
         document.getElementById("board").style.height = "360px";
         document.getElementById("board").style.width = "360px";
-        imgOrder = imgOrder3x3
+        imgOrder = imgOrder3x3;
+        backup = imgOrder3x3;
         blank_tile = "3.jpg"; 
     }else{}
 
-
+    
     for (let r=0; r < rows; r++) {
         for (let c=0; c < columns; c++) {
-
             //<img id="0-0" src="1.jpg">
             let tile = document.createElement("img");
             tile.id = r.toString() + "-" + c.toString();
-            tile.src = "img"+rows+"/"+imgOrder.shift() + ".jpg";
+            tile.src = "img"+rows+"/"+imgOrder[num]+ ".jpg";
 
             //DRAG FUNCTIONALITY
             tile.addEventListener("dragstart", dragStart);  //click an image to drag
@@ -270,28 +274,35 @@ $("#board_game").removeClass("offScreen");
             tile.addEventListener("drop", dragDrop);        //drag an image over another image, drop the image
             tile.addEventListener("dragend", dragEnd);      //after drag drop, swap the two tiles
             document.getElementById("board").append(tile);
-            
+            num++;
         }
     }
     
 }
 
 function checkWin(){
-    var parent = document.getElementById("board"), child;
+    var parent = document.getElementById("board");
     var winning_cond = 0;
-    for(i=1; i < parent.childNodes.length; i++){
-        child = parent.childNodes[i];
+    for(i=1; i <= parent.childNodes.length; i++){
+        var child = parent.childNodes[i];
         let img_src = child.src;
         let arr = img_src.split("/");
         let arr2 = arr.pop().split(".");
         text = arr2[0];
+        alert(text);
         if(i == parseInt(text)){
             winning_cond++
         }else{
             winning_cond = 0;
         }
-        if (winning_cond == 9)
+        if (winning_cond == (rows*columns)){
             alert("You Win");
+            $("#board_game").addClass("offScreen");
+            $("#main_game").removeClass("offScreen");
+            while(parent.hasChildNodes()){
+                parent.removeChild(parent.firstChild);
+            }
+        }
     }
 }
 

@@ -136,8 +136,6 @@ $(document).ready(function(){
         init_bricks();
     });
 
-    
-
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
         var i = 0;
@@ -285,6 +283,19 @@ function draw_main_game() {
     if (y <= 0 + radius) {
         bossHP -= 100;
         dy = -dy;
+
+        if (bossHP == 1000*level*0.75) {
+            $("#main_game").addClass("offScreen");
+            keyGame();
+        }
+        if (bossHP == 1000*level*0.5) {
+            $("#main_game").addClass("offScreen");
+            board_game();
+        }
+        if (bossHP == 1000*level*0.25) {
+            $("#main_game").addClass("offScreen");
+            wam_game();
+        }
     }
 
     //바닥에 부딪혔을 때
@@ -352,6 +363,7 @@ function init_bricks() {
         }
     }
 }
+
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
     context.font = "16px Arial";
@@ -363,9 +375,6 @@ function draw_life(){
     Hp_bar.style.width=Boss_HP+"%";
     Hp_bar.innerHTML= Boss_HP+"%";
 }
-
-
-
 
 // Key Game 함수
 function keyGame(){

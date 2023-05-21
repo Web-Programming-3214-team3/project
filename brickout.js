@@ -1,12 +1,15 @@
 var level = 2;              // 난이도 기본 설정 : 중(2)
 var bossHP = 1000*level;    // 보스체력
+var damage = 50;            // 피해량
 var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
+
 var soundEffect = 5;        // 효과음 크기
 var BGM = 5;                // 배경음악 크기
+
 var keyGameCount = 5;       // Key Game 반복 횟수
 
-var mole_catch=0;
-var mole_miss=0;
+var mole_catch=0;           // 두더지 잡은 횟수
+var mole_miss=0;            // 두더지 놓친 횟수
 
 var width, height;
 var x = 150, y = 400, radius = 10;
@@ -281,7 +284,7 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0 + radius) {
-        bossHP -= 100;
+        bossHP -= damage;
         dy = -dy;
 
         if (bossHP == 1000*level*0.75) {
@@ -421,7 +424,7 @@ function keyGame(){
         keyGameCount=5;
         clearInterval(downloadTimer);
         //$("#key_game").addClass("offScreen");
-        bossHP+=10*level;
+        bossHP += 5*damage;
         console.log("Fail");
         EndKeyGame();
     }
@@ -588,6 +591,7 @@ function dragEnd() {
         if(turns > max_turn){
             var parent = document.getElementById("board");
             alert("You Lose");
+            bossHP += 5*damage;
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
             document.getElementById("turns").innerText = 0;
@@ -601,7 +605,7 @@ function dragEnd() {
 var moletimer;
 function wam_game(){
     $("#whack-a-mole_game").removeClass("offScreen");
-    moletimer=setInterval(mole_pop,850-100*level);
+    moletimer = setInterval(mole_pop,850-100*level);
 }
 function mole_pop(){
     molegame_winlose_chk();
@@ -635,6 +639,7 @@ function molegame_winlose_chk(){
     }
     if(mole_miss>=3+level*2){
         alert("You Lose");
+        bossHP += 5*damage;
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");

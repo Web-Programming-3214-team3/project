@@ -30,7 +30,6 @@ var PADDING;
 var context;
 var animation;
         
-var boss_life = 100;
 var my_life = 3;
 
 // main game canvas 기본 세팅
@@ -257,10 +256,10 @@ function draw_main_game() {
 
     //paddle 움직이기
     if (move_left && paddlex > 0) { // 왼쪽으로 이동
-        paddlex -= 5;
+        paddlex -= 10;
     }
     if (move_right && paddlex + paddle_width < width) { // 오른쪽으로 이동
-        paddlex += 5;
+        paddlex += 10;
     }
 
     //벽돌에 부딪혔을 때
@@ -283,6 +282,7 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0 + radius) {
+        bossHP -= 100;
         dy = -dy;
     }
 

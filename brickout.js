@@ -1,6 +1,6 @@
 var level = 2;              // 난이도 기본 설정 : 중(2)
 var bossHP = 1000*level;    // 보스체력
-var damage = 50;            // 피해량
+var damage = 100;            // 피해량
 var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
 
 var soundEffect = 5;        // 효과음 크기
@@ -187,20 +187,14 @@ $(document).ready(function(){
 
     // 보스의 피가 75%인 경우 Key Game 실행
     $("#HP75").on("click", function () {
-        bossHP = bossHP * 0.75;
-        $("#main_game").addClass("offScreen");
-        keyGame();
+        bossHP = 1000 * level * 0.75 + damage;
     });
     // 보스의 피가 50%인 경우 Board Game 실행
     $("#HP50").on("click", function () {
-        bossHP = bossHP * 0.50;
-        $("#main_game").addClass("offScreen");
-        board_game();
+        bossHP = 1000 * level * 0.50 + damage;
     });
     $("#HP25").on("click", function () {
-        bossHP = bossHP * 0.25;
-        $("#main_game").addClass("offScreen");
-        wam_game();
+        bossHP = 1000 * level * 0.25 + damage;
     });
 
     
@@ -219,6 +213,7 @@ function main_game() {
     
     animation = window.requestAnimationFrame(draw_main_game);
 }
+
 function draw_main_game() {
     clear();
 
@@ -287,34 +282,37 @@ function draw_main_game() {
         bossHP -= damage;
         dy = -dy;
 
-        if (bossHP == 1000*level*0.75) {
+        // 미니게임 실행
+        if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)) {
+            is_gameover = true;
             $("#main_game").addClass("offScreen");
-            keyGame();
-        }
-        if (bossHP == 1000*level*0.5) {
-            $("#main_game").addClass("offScreen");
-            board_game();
-        }
-        if (bossHP == 1000*level*0.25) {
-            $("#main_game").addClass("offScreen");
-            wam_game();
+            if (bossHP == 1000*level*0.75) {
+                keyGame();
+            }
+            if (bossHP == 1000*level*0.5) {
+                board_game();
+            }
+            if (bossHP == 1000*level*0.25) {
+                wam_game();
+            }
         }
     }
 
-    //바닥에 부딪혔을 때
-    else if (y >= height - radius) {
+    //바닥에 부딪히기 직전에
+    else if (y >= height - radius - paddle_height) {
         //paddle에 부딪힌다면
-        if (x > paddlex && x < paddlex + paddle_width) {
+        if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
             dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
             dy = -dy;
         }
-        //paddle에 부딪히지 않는다면
-        else {
-            dy = -dy;
-            my_life--;
-            if(!my_life){
-                draw_main_game();
-                is_gameover = true;
+        else {  //paddle에 부딪히지 않고
+            if (y >= height - radius) { // 바닥에 부딪힌다면
+                dy = -dy;
+                my_life--;
+                if(!my_life){
+                    //draw_main_game();
+                    is_gameover = true;
+                }
             }
         }
     }
@@ -369,7 +367,7 @@ function init_bricks() {
 
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
-    context.font = "16px Arial";
+    context.font = "16px bitbit";
     context.fillStyle = "#234529";
     context.fillText("life : " + my_life, 8, 20);
 
@@ -431,6 +429,8 @@ function keyGame(){
     function EndKeyGame() {
         $("#key_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
+        is_gameover = false;
+        anim = requestAnimationFrame(draw_main_game);
     }
 }
 
@@ -533,6 +533,8 @@ function checkWin(){
             alert("You Win");
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
+            is_gameover = false;
+            anim = requestAnimationFrame(draw_main_game);
             document.getElementById("turns").innerText = 0;
             while (parent.hasChildNodes()) {
                 parent.removeChild(parent.children[0]);
@@ -594,6 +596,8 @@ function dragEnd() {
             bossHP += 5*damage;
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
+            is_gameover = false;
+            anim = requestAnimationFrame(draw_main_game);
             document.getElementById("turns").innerText = 0;
             while (parent.hasChildNodes()) {
                 parent.removeChild(parent.children[0]);
@@ -644,4 +648,6 @@ function molegame_winlose_chk(){
         $("#whack-a-mole_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
     }
+    is_gameover = false;
+    anim = requestAnimationFrame(draw_main_game);
 }

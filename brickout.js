@@ -134,9 +134,20 @@ $(document).ready(function(){
         $("#scene3").addClass("offScreen");
         $("#storyScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        main_game(); 
-        init_paddle(); 
-        init_bricks();
+
+        
+        $("#countDown3").fadeOut(1000);
+        setTimeout(function() {
+            $("#countDown2").show().fadeOut(1000);
+            setTimeout(function() {
+                $("#countDown1").show().fadeOut(1000);
+                setTimeout(function() {
+                    main_game(); 
+                    init_paddle(); 
+                    init_bricks();
+                }, 1000);
+            }, 1000);
+        }, 1000);
     });
 
     $("#key_game_textField").keydown(function(e){
@@ -315,8 +326,8 @@ function draw_main_game() {
             if (y >= height - radius) { // 바닥에 부딪힌다면
                 dy = -dy;
                 my_life--;
-                if(!my_life){
-                    //draw_main_game();
+                draw_life();
+                if(my_life <= 0){
                     is_gameover = true;
                 }
             }
@@ -333,6 +344,7 @@ function clear() {
     context.clearRect(0, 0, width, height);
 }
 
+// 공 그리기
 function ball(x, y, r) {
     context.beginPath();
     context.arc(x, y, r, 0, Math.PI * 2, true);
@@ -340,6 +352,7 @@ function ball(x, y, r) {
     context.fill();
 }
 
+// 벽돌 그리기
 function rect(x, y, w, h) {
     context.beginPath();
     context.rect(x, y, w, h);

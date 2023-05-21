@@ -206,3 +206,11 @@ canvas {
     text-align: center;
     text-shadow: 10px 10px 0 gray;
 }
+
+.count {
+    position: fixed;
+    width: 800px; height: 600px;
+    font-size: 100px;
+    line-height: 600px;
+    text-align: center;
+}

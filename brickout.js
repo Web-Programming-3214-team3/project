@@ -362,7 +362,6 @@ function draw_life(){
     var Boss_HP = bossHP / (10*level);
     Hp_bar.style.width=Boss_HP+"%";
     Hp_bar.innerHTML= Boss_HP+"%";
-
 }
 
 

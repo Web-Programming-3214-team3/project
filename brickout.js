@@ -34,7 +34,7 @@ var PADDING;
 var context;
 var animation;
         
-var my_life = 3;
+var my_life = (4 - level) * 2;
 
 // main game canvas 기본 세팅
 //var mainGameCanvas = document.getElementById("mainGameCanvas");
@@ -106,7 +106,7 @@ $(document).ready(function(){
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
 
-        var showTime = 3000;
+        var showTime = 2300;
         var term = 2000;
 
         // Scene #1
@@ -121,7 +121,7 @@ $(document).ready(function(){
 
         // Scene #2
         setTimeout(function() {
-            $("scene2Start").show().fadeOut(term);
+            $("#scene2Start").show().fadeOut(term);
             setTimeout(function() {
                 $("#scene2End").fadeIn(term);
                 setTimeout(function() {
@@ -129,53 +129,47 @@ $(document).ready(function(){
                     $("#scene3").removeClass("offScreen");
                 }, term);
             }, term+showTime);
-        }, showTime+3*term);
+        }, showTime+2*term);
 
         // Scene #3
         setTimeout(function() {
-            $("scene3Start").show().fadeOut(term);
+            $("#scene3Start").show().fadeOut(term);
             setTimeout(function() {
-                // scene3 보여주는 중
+                $("#scene3End").fadeIn(term);
                 setTimeout(function() {
-                    $("#scene3End").fadeIn(term);
-                    setTimeout(function() {
-                        $("#scene3").addClass("offScreen");
-                        $("#scene4").removeClass("offScreen");
-                    }, term);
-                }, showTime);
-            }, term);
+                    $("#scene3").addClass("offScreen");
+                    $("#scene4").removeClass("offScreen");
+                }, term);
+            }, term+showTime);
         }, (showTime+2*term)*2);
 
         // Scene #4
         setTimeout(function() {
-            $("scene4Start").show().fadeOut(term);
+            $("#scene4Start").show().fadeOut(term);
             setTimeout(function() {
-                // scene4 보여주는 중
+                $("#scene4End").fadeIn(term);
                 setTimeout(function() {
-                    $("#scene4End").fadeIn(term);
-                    setTimeout(function() {
-                        $("#scene4").addClass("offScreen");
-                        if (!skip) {
-                            startGame();
-                        }
-                    }, term);
-                }, showTime);
-            }, term);
+                    $("#scene4").addClass("offScreen");
+                    if (!skip) {
+                        startGame();
+                    }
+                }, term);
+            }, term+showTime);
         }, (showTime+2*term)*3);
     });
 
     // 스토리 스킵 버튼 설정
     $("#skipButton").mouseover(function () {
-        $(this).css({"font-size":"32px", "text-shadow":"0 2px 0 white"});
+        $(this).css({"top":"548px", "width":"788px", "text-shadow":"2px 2px 0 darkgray"});
     });
     $("#skipButton").mousedown(function () {
-        $(this).css({"bottom":"28px", "text-shadow":"none"});
+        $(this).css({"top":"550px", "width":"790px", "text-shadow":"none"});
     });
     $("#skipButton").mouseout(function () {
-        $(this).css({"font-size":"30px", "text-shadow":"none"});
+        $(this).css({"top":"550px", "width":"790px", "text-shadow":"none"});
     });
 
-    // 스토리 씬#3 스킵하면 메인 게임 시작
+    // 스토리 스킵하면 메인 게임 시작
     $("#skipButton").on("click", function () {
         skip = true;
         startGame();

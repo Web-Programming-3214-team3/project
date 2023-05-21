@@ -97,13 +97,14 @@ body {
 }
 
 #skipButton {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 100px; height: 50px;
+    position: absolute;
+    top: 550px;
+    width: 790px; height: 50px;
+    color: white;
     font-size: 30px;
-    line-height: 30px;
-    text-align: center;
+    line-height: 50px;
+    text-align: right;
+    z-index: 1;
 }
 
 #gameScreen {

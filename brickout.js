@@ -357,8 +357,15 @@ function draw_life(){
     context.font = "16px Arial";
     context.fillStyle = "#234529";
     context.fillText("life : " + my_life, 8, 20);
-    context.fillText("Boss : "+bossHP, width - 90, 20);
+
+    var Hp_bar = document.getElementById('prog');
+    var Boss_HP = bossHP / (10*level);
+    Hp_bar.style.width=Boss_HP+"%";
+    Hp_bar.innerHTML= Boss_HP+"%";
+
 }
+
+
 
 
 // Key Game 함수

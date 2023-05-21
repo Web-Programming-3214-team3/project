@@ -111,8 +111,20 @@ body {
     background-color: aqua;
 }
 
+.Hp_bar{
+    width:798px; height: 20px;
+    background-color: lightgrey;
+}
+
+#prog{
+    width: 100%;
+    background-color: red;
+    border: 1px solid black;
+
+}
+
 canvas {
-    width: 800px; height: 600px;
+    width: 800px; height: 580px;
     background-color: skyblue;
 }
 

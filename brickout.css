@@ -2,22 +2,18 @@
     font-family:"bitbit";
     src:url('bitbit.ttf');
 }
-
 * {
     margin : 0;
     padding : 0;
     font-family: "bitbit";
 }
-
 a {
     text-decoration : none;
 }
-
 body {
     margin : 0 auto;
     width: 800px; height: 600px;
 }
-
 .offScreen {
     display:none;
 }
@@ -45,39 +41,39 @@ body {
     font-size: 33px;
 }
 
-#settingPage {
+#settingScreen {
     position: relative;
     overflow: hidden;
     width: 800px; height: 600px;
     background-color: skyblue;
 }
 
-#settingPage #title {
+#settingScreen #title {
     margin-left: 100px;
     margin-bottom: 80px;
     line-height: 200px;
     font-size: 75px;
 }
 
-#settingPage img {
+#settingScreen img {
     position: absolute;
     top: 69px;
     right: 100px;
     width: 60px;
 }
 
-#settingPage p {
+#settingScreen p {
     display: block;
     float: left;
     margin: 10px 20px 10px 90px;
     font-size: 30px;
 }
 
-#settingPage #indent {
+#settingScreen #indent {
     margin-left: 114px;
 }
 
-#settingPage input {
+#settingScreen input {
     display: block;
     float: left;
     margin: 15px 0 15px 75px;
@@ -86,18 +82,22 @@ body {
 
 #storyScreen {
     width: 800px; height: 600px;
-    background-color: gray;
+    background-color: lightgray;
 }
 
 .storyScene {
-    position: relative;
     width: 800px; height: 600px;
     background-color: gray;
 }
 
-.skipButton {
-    border: none;
-    position: absolute;
+.storyScene h1 {
+    font-size: 40px;
+    line-height: 600px;
+    text-align: center;
+}
+
+#skipButton {
+    position: fixed;
     bottom: 30px;
     right: 30px;
     width: 100px; height: 50px;
@@ -199,6 +199,8 @@ canvas {
 }
 
 .endingScreen {
+    position: absolute;
+    top: 0;
     width: 800px; height: 600px;
     background-color: black;
     color: white;
@@ -214,4 +216,11 @@ canvas {
     font-size: 100px;
     line-height: 600px;
     text-align: center;
+}
+
+.curtain {
+    position: absolute;
+    top: 0;
+    width: 800px; height: 600px;
+    background-color: black;
 }

@@ -5,6 +5,7 @@ var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
 
 var soundEffect = 5;        // 효과음 크기
 var BGM = 5;                // 배경음악 크기
+var skip = false;           // 스토리 스킵 여부
 
 var keyGameCount = 5;       // Key Game 반복 횟수
 
@@ -77,12 +78,12 @@ $(document).ready(function(){
     // 환경 설정 버튼 : 누르면 환경설정으로 이동
     $("#settingButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
-        $("#settingPage").removeClass("offScreen");
+        $("#settingScreen").removeClass("offScreen");
     });
 
     // 홈 버튼 : 환경 설정에서 시작 화면으로 이동
     $("#homeButton").on("click", function () {
-        $("#settingPage").addClass("offScreen");
+        $("#settingScreen").addClass("offScreen");
         $("#startScreen").removeClass("offScreen");
     });
 
@@ -104,50 +105,80 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
+
+        var showTime = 3000;
+        var term = 2000;
+
+        // Scene #1
+        $("#scene1Start").fadeOut(term);
+        setTimeout(function() {
+            $("#scene1End").fadeIn(term);
+            setTimeout(function() {
+                $("#scene1").addClass("offScreen");
+                $("#scene2").removeClass("offScreen");
+            }, term);
+        }, term+showTime);
+
+        // Scene #2
+        setTimeout(function() {
+            $("scene2Start").show().fadeOut(term);
+            setTimeout(function() {
+                $("#scene2End").fadeIn(term);
+                setTimeout(function() {
+                    $("#scene2").addClass("offScreen");
+                    $("#scene3").removeClass("offScreen");
+                }, term);
+            }, term+showTime);
+        }, showTime+3*term);
+
+        // Scene #3
+        setTimeout(function() {
+            $("scene3Start").show().fadeOut(term);
+            setTimeout(function() {
+                // scene3 보여주는 중
+                setTimeout(function() {
+                    $("#scene3End").fadeIn(term);
+                    setTimeout(function() {
+                        $("#scene3").addClass("offScreen");
+                        $("#scene4").removeClass("offScreen");
+                    }, term);
+                }, showTime);
+            }, term);
+        }, (showTime+2*term)*2);
+
+        // Scene #4
+        setTimeout(function() {
+            $("scene4Start").show().fadeOut(term);
+            setTimeout(function() {
+                // scene4 보여주는 중
+                setTimeout(function() {
+                    $("#scene4End").fadeIn(term);
+                    setTimeout(function() {
+                        $("#scene4").addClass("offScreen");
+                        if (!skip) {
+                            startGame();
+                        }
+                    }, term);
+                }, showTime);
+            }, term);
+        }, (showTime+2*term)*3);
     });
 
     // 스토리 스킵 버튼 설정
-    $(".skipButton").mouseover(function () {
+    $("#skipButton").mouseover(function () {
         $(this).css({"font-size":"32px", "text-shadow":"0 2px 0 white"});
     });
-    $(".skipButton").mousedown(function () {
+    $("#skipButton").mousedown(function () {
         $(this).css({"bottom":"28px", "text-shadow":"none"});
     });
-    $(".skipButton").mouseout(function () {
+    $("#skipButton").mouseout(function () {
         $(this).css({"font-size":"30px", "text-shadow":"none"});
     });
 
-    // 스토리 씬#1 스킵하면 씬#2 등장; 정확한 씬 개수는 아직 안정함.
-    $("#skip1").on("click", function () {
-        $("#scene1").addClass("offScreen");
-        $("#scene2").removeClass("offScreen");
-    });
-
-    // 스토리 씬#2 스킵하면 씬#3 등장
-    $("#skip2").on("click", function () {
-        $("#scene2").addClass("offScreen");
-        $("#scene3").removeClass("offScreen");
-    });
-
     // 스토리 씬#3 스킵하면 메인 게임 시작
-    $("#skip3").on("click", function () {
-        $("#scene3").addClass("offScreen");
-        $("#storyScreen").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
-
-        
-        $("#countDown3").fadeOut(1000);
-        setTimeout(function() {
-            $("#countDown2").show().fadeOut(1000);
-            setTimeout(function() {
-                $("#countDown1").show().fadeOut(1000);
-                setTimeout(function() {
-                    main_game(); 
-                    init_paddle(); 
-                    init_bricks();
-                }, 1000);
-            }, 1000);
-        }, 1000);
+    $("#skipButton").on("click", function () {
+        skip = true;
+        startGame();
     });
 
     $("#key_game_textField").keydown(function(e){
@@ -212,6 +243,25 @@ $(document).ready(function(){
     })
     
 });
+
+// 게임 시작 함수
+function startGame() {
+    $("#storyScreen").addClass("offScreen");
+    $("#main_game").removeClass("offScreen");
+
+    $("#countDown3").fadeOut(1000);
+    setTimeout(function() {
+        $("#countDown2").show().fadeOut(1000);
+        setTimeout(function() {
+            $("#countDown1").show().fadeOut(1000);
+            setTimeout(function() {
+                main_game(); 
+                init_paddle(); 
+                init_bricks();
+            }, 1000);
+        }, 1000);
+    }, 1000);
+}
 
 //main game 함수
 function main_game() {
@@ -338,8 +388,12 @@ function draw_main_game() {
     }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
-        $("#main_game").addClass("offScreen");
-        $("#lossEndingScreen").removeClass("offScreen");
+        if (my_life <= 0) {
+            $("#lossEndingScreen").fadeIn(3000);
+            setTimeout(function() {
+                $("#main_game").addClass("offScreen");
+            }, 3000);
+        }
     } 
     else {
         anim = window.requestAnimationFrame(draw_main_game);

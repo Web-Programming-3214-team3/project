@@ -12,7 +12,7 @@
             <button id="levelButton" class="menuButton">난이도 : 중</button>
             <button id="settingButton" class="menuButton">환경 설정</button>
         </div>
-        <div id="settingPage" class="offScreen">
+        <div id="settingScreen" class="offScreen">
             <div id="title">환경 설정</div>
             <img id="homeButton" src="home_button.png">
             <p id="indent">효과음</p>
@@ -22,18 +22,27 @@
             <input id="BGM" type="range" min="0" max="10" step="1" value="5"/>
             <p id="BGMNum">5</p>
         </div>
-        <div id="storyScreen" class="offScreen ">
+        <div id="storyScreen" class="offScreen">
+            <div id="skipButton">skip</div>
             <div id="scene1" class="storyScene">
+                <div id="scene1Start" class="curtain"></div>
                 <h1>#1</h1>
-                <div id="skip1" class="skipButton">skip</div>
+                <div id="scene1End" class="curtain offScreen"></div>
             </div>
             <div id="scene2" class="storyScene offScreen">
+                <div id="scene2Start" class="curtain offScreen"></div>
                 <h1>#2</h1>
-                <div id="skip2" class="skipButton">skip</div>
+                <div id="scene2End" class="curtain offScreen"></div>
             </div>
             <div id="scene3" class="storyScene offScreen">
+                <div id="scene3Start" class="curtain offScreen"></div>
                 <h1>#3</h1>
-                <div id="skip3" class="skipButton">skip</div>
+                <div id="scene3End" class="curtain offScreen"></div>
+            </div>
+            <div id="scene4" class="storyScene offScreen">
+                <div id="scene4Start" class="curtain offScreen"></div>
+                <h1>#4</h1>
+                <div id="scene4End" class="curtain offScreen"></div>
             </div>
         </div>
         <div id="main_game" class="gameScreen offScreen">

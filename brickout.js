@@ -1,6 +1,6 @@
 var level = 2;              // 난이도 기본 설정 : 중(2)
 var bossHP = 1000*level;    // 보스체력
-var damage = 100;            // 피해량
+var damage = 50;			// 피해량
 var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
 
 var soundEffect = 5;        // 효과음 크기

@@ -130,6 +130,7 @@ $(document).ready(function(){
     // 스토리 씬#3 스킵하면 메인 게임 시작
     $("#skip3").on("click", function () {
         $("#scene3").addClass("offScreen");
+        $("#storyScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
         main_game(); 
         init_paddle(); 

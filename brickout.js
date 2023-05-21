@@ -137,7 +137,6 @@ $(document).ready(function(){
         init_bricks();
     });
 
-    
 
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
@@ -167,6 +166,7 @@ $(document).ready(function(){
         }
     });
 
+    // 두더지 잡혔을 때 설정
     $("#mole").on("click",function(){
         mole_catch++;
         catchcmiss_show();
@@ -352,6 +352,7 @@ function init_bricks() {
         }
     }
 }
+
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
     context.font = "16px Arial";
@@ -359,7 +360,6 @@ function draw_life(){
     context.fillText("life : " + my_life, 8, 20);
     context.fillText("Boss : "+bossHP, width - 90, 20);
 }
-
 
 // Key Game 함수
 function keyGame(){
@@ -582,6 +582,7 @@ function dragEnd() {
         }else{}
     }
 }
+
 // 두더지 잡기 게임
 var moletimer;
 function wam_game(){

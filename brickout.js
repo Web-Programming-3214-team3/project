@@ -164,6 +164,11 @@ $(document).ready(function(){
     });
     $("#skipButton").mousedown(function () {
         $(this).css({"top":"550px", "width":"790px", "text-shadow":"none"});
+		setTimeout(function() {
+			$("#skipButton").mouseup(function() {
+				$(this).css({"top":"548px", "width":"788px", "text-shadow":"2px 2px 0 darkgray"});
+			});
+		}, 210);
     });
     $("#skipButton").mouseout(function () {
         $(this).css({"top":"550px", "width":"790px", "text-shadow":"none"});
@@ -172,7 +177,10 @@ $(document).ready(function(){
     // 스토리 스킵하면 메인 게임 시작
     $("#skipButton").on("click", function () {
         skip = true;
-        startGame();
+		$("#skipCurtain").css({"margin":"300px 400px", "width":"0", "height":"0", "opacity":"0"});
+		$("#skipCurtain").show();
+		$("#skipCurtain").animate({"margin":"0", "width":"800px", "height":"600px", "opacity":"1"}, 700);
+		setTimeout(startGame, 1000);
     });
 
     $("#key_game_textField").keydown(function(e){
@@ -273,7 +281,6 @@ function main_game() {
 
 function draw_main_game() {
     clear();
-
     draw_life();
 
     //key 입력 event
@@ -446,7 +453,7 @@ function draw_life(){
     var Hp_bar = document.getElementById('prog');
     var Boss_HP = bossHP / (10*level);
     Hp_bar.style.width=Boss_HP+"%";
-    Hp_bar.innerHTML= Boss_HP+"%";
+    Hp_bar.innerHTML= bossHP+"/"+(1000*level)+" ("+Boss_HP+"%)";
 }
 
 // Key Game 함수

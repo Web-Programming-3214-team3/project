@@ -196,7 +196,9 @@ $(document).ready(function(){
     $("#HP25").on("click", function () {
         bossHP = 1000 * level * 0.25 + damage;
     });
-
+    $("#HP05").on("click", function () {
+        bossHP = 1000 * level * 0.05;
+    })
     
 });
 
@@ -283,7 +285,7 @@ function draw_main_game() {
         dy = -dy;
 
         // 미니게임 실행
-        if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)) {
+        if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
             is_gameover = true;
             $("#main_game").addClass("offScreen");
             if (bossHP == 1000*level*0.75) {
@@ -294,6 +296,10 @@ function draw_main_game() {
             }
             if (bossHP == 1000*level*0.25) {
                 wam_game();
+            }
+            if (bossHP == 0) {
+                $("#main_game").addClass("offScreen");
+                $("#endingScreen").removeClass("offScreen");
             }
         }
     }

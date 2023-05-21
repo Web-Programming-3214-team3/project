@@ -196,3 +196,13 @@ canvas {
     height : 100px;
     width : 100px;
 }
+
+#endingScreen {
+    width: 800px; height: 600px;
+    background-color: black;
+    color: white;
+    font-size: 70px;
+    line-height: 600px;
+    text-align: center;
+    text-shadow: 10px 10px 0 gray;
+}

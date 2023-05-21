@@ -6,7 +6,7 @@ var BGM = 5;                // 배경음악 크기
 var keyGameCount = 5;       // Key Game 반복 횟수
 
 var mole_catch=0;
-
+var mole_miss=0;
 
 var width, height;
 var x = 150, y = 400, radius = 10;
@@ -168,7 +168,7 @@ $(document).ready(function(){
 
     $("#mole").on("click",function(){
         mole_catch++;
-        document.getElementById("catch").innerText = mole_catch;
+        catchcmiss_show();
         $("#mole").empty();
         var image=$("<img>").attr("src", "catch_mole.png");
         image.css({
@@ -179,7 +179,7 @@ $(document).ready(function(){
 
         clearInterval(moletimer);
         setTimeout(function() {
-            moletimer=setInterval(mole_pop,750);
+            moletimer=setInterval(mole_pop,850-100*level);
         }, 100);
     });
 
@@ -585,28 +585,42 @@ function dragEnd() {
 var moletimer;
 function wam_game(){
     $("#whack-a-mole_game").removeClass("offScreen");
-    moletimer=setInterval(mole_pop,750);
+    moletimer=setInterval(mole_pop,850-100*level);
 }
 function mole_pop(){
-    if(mole_catch>3){
+    molegame_winlose_chk();
+    if($("#mole img:first-child").attr("src")=="mole.png"){
+        mole_miss++;
+        catchcmiss_show();
+    }
+    var randomX = Math.floor(Math.random() * (700));
+    var randomY = Math.floor(Math.random() * (500));
+    var image=$("<img>").attr("src", "mole.png");
+    image.css({
+        width: 100,
+        height: 100
+    });
+    $("#mole").empty();
+    $("#mole").css({
+        left: randomX+"px",
+        top: randomY+"px"
+    });
+    $("#mole").append(image);
+}
+function catchcmiss_show(){
+    document.getElementById("catch").innerText = "잡은 횟수: "+mole_catch+" / 놓친 횟수: "+mole_miss;
+}
+function molegame_winlose_chk(){
+    if(mole_catch>=3+level*2){
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
     }
-    else{
-        var randomX = Math.floor(Math.random() * (1000 - 100));
-        var randomY = Math.floor(Math.random() * (1000 - 100));
-        var image=$("<img>").attr("src", "mole.png");
-        image.css({
-            width: 100,
-            height: 100
-        });
-        $("#mole").empty();
-        $("#mole").css({
-            left: randomX+"px",
-            top: randomY+"px"
-        });
-        $("#mole").append(image);
+    if(mole_miss>=3+level*2){
+        alert("You Lose");
+        clearInterval(moletimer);
+        $("#whack-a-mole_game").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
     }
 }

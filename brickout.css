@@ -175,8 +175,8 @@ canvas {
 }
 #moleground{
     position: relative;
-    height : 1000px;
-    width : 1000px;
+    height : 600px;
+    width : 800px;
     background-color: lightgrey;
 }
 #mole{

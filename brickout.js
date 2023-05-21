@@ -259,7 +259,7 @@ function draw_main_game() {
     for (i = 0; i < row_number; i++) { 
         for (j = 0; j < col_number; j++) {
             if (bricks[i][j] >= 30) {    
-                rect(j * brick_width, i * brick_height+ 200, brick_width - 1, brick_height -1); // +200 지움
+                rect(j * brick_width, i * brick_height + 200, brick_width - 1, brick_height -1); // +200 지움
             }
         }
     }
@@ -294,6 +294,8 @@ function draw_main_game() {
     if (y <= 0 + radius) {
         bossHP -= damage;
         dy = -dy;
+
+        console.log(bossHP);
 
         // 미니게임 실행
         if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
@@ -352,7 +354,7 @@ function ball(x, y, r) {
     context.fill();
 }
 
-// 벽돌 그리기
+// paddle & 벽돌 그리기
 function rect(x, y, w, h) {
     context.beginPath();
     context.rect(x, y, w, h);
@@ -627,6 +629,8 @@ function dragEnd() {
 // 두더지 잡기 게임
 var moletimer;
 function wam_game(){
+    mole_catch = 0;
+    mole_miss = 0;
     $("#whack-a-mole_game").removeClass("offScreen");
     moletimer = setInterval(mole_pop,850-100*level);
 }
@@ -658,7 +662,9 @@ function molegame_winlose_chk(){
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
+        $("#main_game").removeClass("offScreen");    
+        is_gameover = false;
+        anim = requestAnimationFrame(draw_main_game);
     }
     if(mole_miss>=3+level*2){
         alert("You Lose");
@@ -666,7 +672,7 @@ function molegame_winlose_chk(){
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
+        is_gameover = false;
+        anim = requestAnimationFrame(draw_main_game);
     }
-    is_gameover = false;
-    anim = requestAnimationFrame(draw_main_game);
 }

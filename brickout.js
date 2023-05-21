@@ -295,7 +295,7 @@ function draw_main_game() {
         bossHP -= damage;
         dy = -dy;
 
-        console.log(bossHP);
+        console.log("Boss HP : " + bossHP);
 
         // 미니게임 실행
         if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
@@ -312,7 +312,8 @@ function draw_main_game() {
             }
             if (bossHP == 0) {
                 $("#main_game").addClass("offScreen");
-                $("#endingScreen").removeClass("offScreen");
+                $("#winEndingScreen").removeClass("offScreen");
+                return;
             }
         }
     }
@@ -337,6 +338,8 @@ function draw_main_game() {
     }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
+        $("#main_game").addClass("offScreen");
+        $("#lossEndingScreen").removeClass("offScreen");
     } 
     else {
         anim = window.requestAnimationFrame(draw_main_game);

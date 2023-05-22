@@ -286,22 +286,26 @@ $(document).ready(function(){
 });
 
 // 게임 시작 함수
+var start = false;
 function startGame() {
-    $("#storyScreen").addClass("offScreen");
-    $("#main_game").removeClass("offScreen");
+    if (!start) {
+        start = true;
+        $("#storyScreen").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
 
-    $("#countDown3").fadeOut(1000);
-    setTimeout(function() {
-        $("#countDown2").show().fadeOut(1000);
+        $("#countDown3").fadeOut(1000);
         setTimeout(function() {
-            $("#countDown1").show().fadeOut(1000);
+            $("#countDown2").show().fadeOut(1000);
             setTimeout(function() {
-                main_game(); 
-                init_paddle(); 
-                init_bricks();
+                $("#countDown1").show().fadeOut(1000);
+                setTimeout(function() {
+                    main_game(); 
+                    init_paddle(); 
+                    init_bricks();
+                }, 1000);
             }, 1000);
         }, 1000);
-    }, 1000);
+    }
 }
 
 //main game 함수

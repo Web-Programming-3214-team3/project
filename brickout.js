@@ -411,7 +411,7 @@ function draw_main_game() {
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
         if (my_life <= 0) {
-            $("#lossEndingScreen").fadeIn(3000);
+            $("#loseEndingScreen").fadeIn(3000);
             setTimeout(function() {
                 $("#main_game").addClass("offScreen");
             }, 3000);

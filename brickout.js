@@ -212,20 +212,22 @@ $(document).ready(function(){
     });
 
     $("#mole").on("click",function(){
-        mole_catch++;
-        catchcmiss_show();
-        $("#mole").empty();
-        var image=$("<img>").attr("src", "catch_mole.png");
-        image.css({
-            width: 100,
-            height: 100
-        });
-        $("#mole").append(image);
+        if($("#mole img:first-child").attr("src")=="mole.png"){
+            mole_catch++;
+            catchcmiss_show();
+            $("#mole").empty();
+            var image=$("<img>").attr("src", "catch_mole.png");
+            image.css({
+                width: 100,
+                height: 100
+            });
+            $("#mole").append(image);
 
-        clearInterval(moletimer);
-        setTimeout(function() {
-            moletimer=setInterval(mole_pop,850-100*level);
-        }, 100);
+            clearInterval(moletimer);
+            setTimeout(function() {
+                moletimer=setInterval(mole_pop,850-100*level);
+            }, 100);
+        }
     });
 
 

@@ -211,7 +211,7 @@ $(document).ready(function(){
         }
     });
 
-    $("#mole").on("click",function(){
+    $("#mole").mousedown(function() {
         if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
             mole_catch++;
             catchcmiss_show();
@@ -229,6 +229,24 @@ $(document).ready(function(){
             }, 100);
         }
     });
+    // $("#mole").on("click",function(){
+    //     if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
+    //         mole_catch++;
+    //         catchcmiss_show();
+    //         $("#mole").empty();
+    //         var image=$("<img>").attr("src", "catch_mole.png");
+    //         image.css({
+    //             width: 100,
+    //             height: 100
+    //         });
+    //         $("#mole").append(image);
+
+    //         clearInterval(moletimer);
+    //         setTimeout(function() { // 잡았을 시 잠시 대기
+    //             moletimer=setInterval(mole_pop,850-100*level);
+    //         }, 100);
+    //     }
+    // });
 
 
     // 보스의 피가 75%인 경우 Key Game 실행

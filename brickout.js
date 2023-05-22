@@ -212,7 +212,7 @@ $(document).ready(function(){
     });
 
     $("#mole").on("click",function(){
-        if($("#mole img:first-child").attr("src")=="mole.png"){
+        if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
             mole_catch++;
             catchcmiss_show();
             $("#mole").empty();
@@ -224,7 +224,7 @@ $(document).ready(function(){
             $("#mole").append(image);
 
             clearInterval(moletimer);
-            setTimeout(function() {
+            setTimeout(function() { // 잡았을 시 잠시 대기
                 moletimer=setInterval(mole_pop,850-100*level);
             }, 100);
         }
@@ -239,6 +239,7 @@ $(document).ready(function(){
     $("#HP50").on("click", function () {
         bossHP = 1000 * level * 0.50 + damage;
     });
+    // 보스의 피가 25%인 경우 Mole Game 실행
     $("#HP25").on("click", function () {
         bossHP = 1000 * level * 0.25 + damage;
     });
@@ -692,14 +693,17 @@ function wam_game(){
     mole_catch = 0;
     mole_miss = 0;
     $("#whack-a-mole_game").removeClass("offScreen");
-    moletimer = setInterval(mole_pop,850-100*level);
+    moletimer = setInterval(mole_pop,850-100*level); // 난이도에 따라 시간 감소
 }
+
+// 두더지 출몰 함수
 function mole_pop(){
     molegame_winlose_chk();
     if($("#mole img:first-child").attr("src")=="mole.png"){
         mole_miss++;
         catchcmiss_show();
     }
+    // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
     var image=$("<img>").attr("src", "mole.png");
@@ -714,11 +718,15 @@ function mole_pop(){
     });
     $("#mole").append(image);
 }
-function catchcmiss_show(){
+
+// 두더지 잡은 횟수, 놓친 횟수 표시 함수
+function catchcmiss_show(){ 
     document.getElementById("catch").innerText = "잡은 횟수: "+mole_catch+" / 놓친 횟수: "+mole_miss;
 }
+
+// mole game 승리 패배 확인 함수
 function molegame_winlose_chk(){
-    if(mole_catch>=3+level*2){
+    if(mole_catch>=3+level*2){ // 두더지 게임 승리
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
@@ -726,7 +734,7 @@ function molegame_winlose_chk(){
         is_gameover = false;
         anim = requestAnimationFrame(draw_main_game);
     }
-    if(mole_miss>=3+level*2){
+    if(mole_miss>=3+level*2){ // 두더지 게임 패배
         alert("You Lose");
         bossHP += 5*damage;
         clearInterval(moletimer);

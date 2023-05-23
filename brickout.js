@@ -307,25 +307,33 @@ function startGame() {
         }, 1000);
     }
 }
-
+let backImg = new Image(); // 배경이미지
+let ballImg = new Image(); // 볼 이미지
+let marioImg = new Image(); // 마리오 이미지
+var paddleEffect = new Audio("fireball.mp3");
+var gameoverBgm = new Audio("gameover.mp3");
 //main game 함수
 function main_game() {
     //canvas 가져오기
     var $c = $('#mainGameCanvas');
+
     context = $c.get(0).getContext('2d');
     width = $c.width();
     height = $c.height();
 
     x_left = $c.offset().left;
     x_right = $c.offset().right;
-    
+
+    backImg.src = "background.png";
+    ballImg.src = "fireball.png";
+    marioImg.src = "mario.png";
     animation = window.requestAnimationFrame(draw_main_game);
 }
 
 function draw_main_game() {
     clear();
     draw_life();
-
+    context.drawImage(backImg,0,0,800,600);
     //key 입력 event
     $(document).on('keydown', function(e) {
         if (e.which == 37) {
@@ -347,7 +355,7 @@ function draw_main_game() {
     ball(x, y, radius);
     x += dx;
     y += dy; 
-    rect(paddlex, height - paddle_height, paddle_width, paddle_height);
+    paddle(paddlex, height - paddle_height, paddle_width, paddle_height);
 
     //draw bricks
     for (i = 0; i < row_number; i++) { 
@@ -418,6 +426,7 @@ function draw_main_game() {
         if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
             dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
             dy = -dy;
+            paddleEffect.play();
         }
         else {  //paddle에 부딪히지 않고
             if (y >= height - radius) { // 바닥에 부딪힌다면
@@ -433,6 +442,7 @@ function draw_main_game() {
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
         if (my_life <= 0) {
+            gameoverBgm.play();
             $("#loseEndingScreen").fadeIn(3000);
             setTimeout(function() {
                 $("#main_game").addClass("offScreen");
@@ -444,15 +454,19 @@ function draw_main_game() {
     }
 }
 function clear() {
+    
     context.clearRect(0, 0, width, height);
 }
 
 // 공 그리기
 function ball(x, y, r) {
+    /*
     context.beginPath();
     context.arc(x, y, r, 0, Math.PI * 2, true);
     context.closePath();
     context.fill();
+    */
+    context.drawImage(ballImg,x,y,2*r,2*r);
 }
 
 // paddle & 벽돌 그리기
@@ -461,6 +475,9 @@ function rect(x, y, w, h) {
     context.rect(x, y, w, h);
     context.closePath();
     context.fill();
+}
+function paddle(x,y,w,h){
+    context.drawImage(marioImg,x,y-40,w,100);
 }
 
 //main game의 paddle 설정

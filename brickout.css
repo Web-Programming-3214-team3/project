@@ -123,10 +123,8 @@ body {
     border: 1px solid black;
 
 }
-
 canvas {
     width: 800px; height: 580px;
-    background-color: skyblue;
 }
 
 #key_game {

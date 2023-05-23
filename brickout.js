@@ -812,30 +812,30 @@ function dragEnd() {
 
     let isAdjacent = moveLeft || moveRight || moveUp || moveDown;
 
-    if (isAdjacent) {
-        let currImg = currTile.src;
-        let otherImg = otherTile.src;
+    
+    let currImg = currTile.src;
+    let otherImg = otherTile.src;
 
-        currTile.src = otherImg;
-        otherTile.src = currImg;
-        
-        turns += 1;
-        document.getElementById("turns").innerText = turns;
-        checkWin();
-        if(turns > max_turn){
-            boardGameFirst = false;
-            var parent = document.getElementById("board");
-            alert("You Lose");
-            bossHP += 5*damage;
-            $("#board_game").addClass("offScreen");
-            $("#main_game").removeClass("offScreen");
-            miniGameEnd();
-            document.getElementById("turns").innerText = 0;
-            while (parent.hasChildNodes()) {
-                parent.removeChild(parent.children[0]);
-            }
-        }else{}
-    }
+    currTile.src = otherImg;
+    otherTile.src = currImg;
+    
+    turns += 1;
+    document.getElementById("turns").innerText = turns;
+    checkWin();
+    if(turns > max_turn){
+        boardGameFirst = false;
+        var parent = document.getElementById("board");
+        alert("You Lose");
+        bossHP += 5*damage;
+        $("#board_game").addClass("offScreen");
+        $("#main_game").removeClass("offScreen");
+        miniGameEnd();
+        document.getElementById("turns").innerText = 0;
+        while (parent.hasChildNodes()) {
+            parent.removeChild(parent.children[0]);
+        }
+    }else{}
+    
 }
 // 두더지 잡기 게임
 var moletimer;

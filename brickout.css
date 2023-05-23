@@ -168,22 +168,39 @@ canvas {
     opacity:0;
 }
 
+#board_game {
+    width: 550px; height: 550px;
+    background-color: white;
+}
+
 #board {
-    width: 100px;
-    height: 100px;
+    width: 480px;
+    height: 480px;
     background-color: lightblue;
     border: 10px solid #0c67ae;
 
-    margin: 0 auto;
+    margin: 15px 25px 0 25px;
     display: flex;
     flex-wrap: wrap;
 }
 
 #board img {
-    width: 118px;
-    height: 118px;
-    border: 1px solid #0c67ae;
+    width: 98px;
+    height: 98px;
+    /*border: 1px solid #0c67ae;*/
 }
+
+#board_game p {
+    margin-left: 25px;
+    margin-bottom: 15px;
+    font-size: 20px;
+    line-height: 20px;
+}
+
+#whack-a-male_game {
+    background-color: white;
+}
+
 #moleground{
     position: relative;
     height : 600px;

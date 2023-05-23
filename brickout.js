@@ -538,14 +538,6 @@ function draw_life(){
 // Key Game 함수
 var keyGameFirst = false;
 function keyGame(){
-    $(".input_keys").css("display","block");
-    $("#key_game").removeClass("offScreen");
-    if (!keyGameFirst) {
-        keyGameFirst = true;
-        $("#key_game").css({"margin":"300px 400px", "width":"0", "height":"0"});
-        $("#key_game").animate({"margin":"250px 200px", "width":"400px", "height":"100px"});
-        $("#key_game").css({"margin":"250px 200px", "width":"400px", "height":"100px"});
-    }
     var arrows = ["key_down.png", "key_up.png","key_left.png","key_right.png"];
     var steps = [0,0,0,0,0];
     keyGametimer = 100;
@@ -557,6 +549,26 @@ function keyGame(){
         keyImg[i].src = arrows[steps[i]];
         keyImg[i].setAttribute("value",steps[i]);
     }
+    
+    $("#key_game").css({"margin":"300px 400px", "width":"0", "height":"0"});
+    $("#key_zone").css({"width":"0", "height":"0"});
+    $(".key_img").css({"width":"0", "height":"0"});
+    $(".game_CountBar").css({"width":"0", "height":"0"});
+
+    $(".input_keys").css("display","block");
+    $("#key_game").removeClass("offScreen");
+
+    if (!keyGameFirst) {
+        keyGameFirst = true;
+        $("#key_game").animate({"margin":"250px 200px", "width":"400px", "height":"100px"});
+        $("#key_zone").animate({"width":"400px", "height":"80px"});
+        $(".key_img").animate({"width":"70px", "height":"70px"});
+        $(".game_CountBar").animate({"width":"360px", "height":"10px"});
+    }
+    $("#key_game").css({"margin":"250px 200px", "width":"400px", "height":"100px"});
+    $("#key_zone").css({"width":"400px", "height":"80px"});
+    $(".key_img").css({"width":"70px", "height":"70px"});
+    $(".game_CountBar").css({"width":"360px", "height":"10px"});
 
     var downloadTimer = setInterval(function(){
         $("#key_game_textField").find("input").focus();
@@ -583,6 +595,7 @@ function keyGame(){
         }
     }
     function FailKeyGame(){
+        keyGameFirst = false;
         keyGameCount=5;
         clearInterval(downloadTimer);
         //$("#key_game").addClass("offScreen");
@@ -620,36 +633,31 @@ var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
 var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
 var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
 
-
+var boardGameFirst = false;
 function board_game() {
-var num = 0;
-if(level == 3){
-    rows = 5;
-    columns = 5;
-}else if(level == 2){
-    rows = 4;
-    columns = 4;
-}else{
-    rows = 3;
-    columns = 3;
-}
-$("#board_game").removeClass("offScreen");
+    //$("#board_game").css({"margin":""})
+    var num = 0;
+    if(level == 3){
+        rows = 5;
+        columns = 5;
+    }else if(level == 2){
+        rows = 4;
+        columns = 4;
+    }else{
+        rows = 3;
+        columns = 3;
+    }
+
     turns=0;
     if(rows == 4){
-        document.getElementById("board").style.height = "480px";
-        document.getElementById("board").style.width = "480px";
         imgOrder = imgOrder4x4;
         backup = imgOrder4x4;
         max_turn = 40; 
     }if(rows == 5){
-        document.getElementById("board").style.height = "600px";
-        document.getElementById("board").style.width = "600px";
         imgOrder = imgOrder5x5;
         backup = imgOrder5x5;
         max_turn = 50; 
     }if(rows == 3){
-        document.getElementById("board").style.height = "360px";
-        document.getElementById("board").style.width = "360px";
         imgOrder = imgOrder3x3;
         backup = imgOrder3x3;
         max_turn = 15;
@@ -674,7 +682,28 @@ $("#board_game").removeClass("offScreen");
             num++;
         }
     }
-    
+
+    var imgSize;
+    if(rows == 4){
+        imgSize = "120px";
+    }if(rows == 5){
+        imgSize = "96px";
+    }if(rows == 3){
+        imgSize = "160px";
+    }else{}
+
+    if (!boardGameFirst) {
+        $("#board_game").css({"margin":"300px 400px", "width":"0", "height":"0"});
+        $("#board").css({"width":"0", "height":"0"});
+        $("#board").find("img").css({"width":"0", "height":"0"});
+        $("#board_game").removeClass("offScreen");
+        $("#board_game").animate({"margin":"25px 125px", "width":"550px", "height":"550px"});
+        $("#board").animate({"width":"480px", "height":"480px"});
+        $("#board").find("img").animate({"width":imgSize, "height":imgSize});
+        $("#board_game").css({"margin":"25px 125px", "width":"550px", "height":"550px"});
+        $("#board").css({"width":"480px", "height":"480px"});
+        $("#board").find("img").css({"width":imgSize, "height":imgSize});
+    }
 }
 
 function checkWin(){
@@ -754,6 +783,7 @@ function dragEnd() {
         document.getElementById("turns").innerText = turns;
         checkWin();
         if(turns > max_turn){
+            boardGameFirst = false;
             var parent = document.getElementById("board");
             alert("You Lose");
             bossHP += 5*damage;
@@ -769,10 +799,17 @@ function dragEnd() {
 }
 // 두더지 잡기 게임
 var moletimer;
+var wamFirst = false;
 function wam_game(){
     mole_catch = 0;
     mole_miss = 0;
     $("#whack-a-mole_game").removeClass("offScreen");
+    if (!wamFirst) {
+        wamFirst = true;
+        $("#whack-a-mole_game").css({"margin":"300px 400px", "width":"0", "height":"0"});
+        $("#whack-a-mole_game").animate({"margin":"0", "width":"800px", "height":"600px"});
+        $("#whack-a-mole_game").css({"margin":"0", "width":"800px", "height":"600px"});
+    }
     moletimer = setInterval(mole_pop,850-100*level); // 난이도에 따라 시간 감소
 }
 
@@ -814,6 +851,7 @@ function molegame_winlose_chk(){
         miniGameEnd();
     }
     if(mole_miss>=3+level*2){ // 두더지 게임 패배
+        wamFirst = false;
         alert("You Lose");
         bossHP += 5*damage;
         clearInterval(moletimer);

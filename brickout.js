@@ -290,24 +290,25 @@ $(document).ready(function(){
 // 게임 시작 함수
 var start = false;
 function startGame() {
-    mainBgm.pause;
     if (!start) {
         start = true;
         $("#storyScreen").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-
-        $("#countDown3").fadeOut(1000);
+        mainBgm.setAttribute("src","countdown.wav");
+        mainBgm.loop = false;
+        mainBgm.play();
+        $("#countDown3").fadeOut(1200);
         setTimeout(function() {
-            $("#countDown2").show().fadeOut(1000);
+            $("#countDown2").show().fadeOut(1300);
             setTimeout(function() {
-                $("#countDown1").show().fadeOut(1000);
+                $("#countDown1").show().fadeOut(1100);
                 setTimeout(function() {
                     main_game(); 
                     init_paddle(); 
                     init_bricks();
-                }, 1000);
-            }, 1000);
-        }, 1000);
+                }, 1200);
+            }, 1300);
+        }, 1100);
     }
 }
 
@@ -321,13 +322,19 @@ function goPhase2(){
 let backImg = new Image(); // 배경이미지
 let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
-let effectSound = [paddleEffect, gameoverBgm, breakSound, missSound];
+let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh];
+let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
-var gameoverBgm = new Audio("gameover.mp3");
 var breakSound = new Audio("break.wav");
 var missSound = new Audio("miss.mp3");
+var hit1 = new Audio("hit1.mp3");
+var hit2 = new Audio("hit2.mp3");
+var laugh = new Audio("startminiGame.mp3");
+var hitstack = 0;
+var isBall = false; // 공이 있는지
 //main game 함수
 function main_game() {
+    mainBgm.loop = true;
     mainBgm.src = "phase1.mp3";
     mainBgm.play();
     //canvas 가져오기
@@ -366,11 +373,23 @@ function draw_main_game() {
          move_right = false;
         }
     });
-
+    $(document).on('keyup',function(e){
+        if(e.which == 32 && !isBall){
+            x=paddlex+50;
+            dx=0;
+            y=height-paddle_height-15;
+            dy = -dy;
+            isBall = true;
+        }
+    })
     //ball 과 paddle 그리기
-    ball(x, y, radius);
-    x += dx;
-    y += dy; 
+    if(isBall){
+
+        ball(x, y, radius);
+        x += dx;
+        y += dy; 
+    }
+
     paddle(paddlex, height - paddle_height, paddle_width, paddle_height);
 
     //draw bricks
@@ -406,10 +425,20 @@ function draw_main_game() {
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         dx = -dx;
+
     }
 
     //천장에 부딪혔을 때
     if (y <= 0 + radius) {
+
+        if(hitstack==0){
+            hit1.play();
+            hitstack = (hitstack+1)%2;
+        }else{
+            hit2.play();
+            hitstack = (hitstack+1)%2;
+        
+        }
         bossHP -= damage;
         dy = -dy;
 
@@ -420,16 +449,22 @@ function draw_main_game() {
             is_gameover = true;
             $("#waitScreen").removeClass("offScreen");
             if (bossHP == 1000*level*0.75) {
+                laugh.play();
                 keyGame();
             }
             if (bossHP == 1000*level*0.5) {
+                laugh.play();
                 board_game();
                 goPhase2();
             }
             if (bossHP == 1000*level*0.25) {
+                laugh.play();
                 wam_game();
             }
             if (bossHP == 0) {
+                mainBgm.setAttribute("src","winGame.mp3");
+                mainBgm.loop = false;
+                mainBgm.play();
                 $("#main_game").addClass("offScreen");
                 $("#winEndingScreen").removeClass("offScreen");
                 return;
@@ -440,28 +475,33 @@ function draw_main_game() {
     //바닥에 부딪히기 직전에
     else if (y >= height - radius - paddle_height) {
         //paddle에 부딪힌다면
-        if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
-            dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
-            dy = -dy;
-            paddleEffect.play();
-        }
-        else {  //paddle에 부딪히지 않고
-            if (y >= height - radius) { // 바닥에 부딪힌다면
+        if(isBall){
+            if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
+                dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
                 dy = -dy;
-                my_life--;
-                draw_life();
-                missSound.play();
-                if(my_life <= 0){
-                    is_gameover = true;
+                paddleEffect.play();
+            }
+            else {  //paddle에 부딪히지 않고
+                if (y >= height - radius) { // 바닥에 부딪힌다면
+                    isBall = false;
+                    dy = -dy;
+                    my_life--;
+                    draw_life();
+                    missSound.play();
+                    if(my_life <= 0){
+                        is_gameover = true;
+                    }
                 }
             }
         }
+
     }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
         if (my_life <= 0) {
-            mainBgm.pause();
-            gameoverBgm.play();
+            mainBgm.setAttribute("src","gameover.mp3");
+            mainBgm.loop = false;
+            mainBgm.play();
             $("#loseEndingScreen").fadeIn(3000);
             setTimeout(function() {
                 $("#main_game").addClass("offScreen");

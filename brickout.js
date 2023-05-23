@@ -402,7 +402,7 @@ function draw_main_game() {
         // 미니게임 실행
         if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
             is_gameover = true;
-            $("#main_game").addClass("offScreen");
+            $("#waitScreen").removeClass("offScreen");
             if (bossHP == 1000*level*0.75) {
                 keyGame();
             }
@@ -517,9 +517,16 @@ function draw_life(){
 }
 
 // Key Game 함수
+var keyGameFirst = false;
 function keyGame(){
     $(".input_keys").css("display","block");
     $("#key_game").removeClass("offScreen");
+    if (!keyGameFirst) {
+        keyGameFirst = true;
+        $("#key_game").css({"margin":"300px 400px", "width":"0", "height":"0"});
+        $("#key_game").animate({"margin":"250px 200px", "width":"400px", "height":"100px"});
+        $("#key_game").css({"margin":"250px 200px", "width":"400px", "height":"100px"});
+    }
     var arrows = ["key_down.png", "key_up.png","key_left.png","key_right.png"];
     var steps = [0,0,0,0,0];
     keyGametimer = 100;
@@ -567,8 +574,7 @@ function keyGame(){
     function EndKeyGame() {
         $("#key_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        is_gameover = false;
-        anim = requestAnimationFrame(draw_main_game);
+        miniGameEnd();
     }
 }
 
@@ -734,8 +740,7 @@ function dragEnd() {
             bossHP += 5*damage;
             $("#board_game").addClass("offScreen");
             $("#main_game").removeClass("offScreen");
-            is_gameover = false;
-            anim = requestAnimationFrame(draw_main_game);
+            miniGameEnd();
             document.getElementById("turns").innerText = 0;
             while (parent.hasChildNodes()) {
                 parent.removeChild(parent.children[0]);
@@ -786,9 +791,8 @@ function molegame_winlose_chk(){
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");    
-        is_gameover = false;
-        anim = requestAnimationFrame(draw_main_game);
+        $("#main_game").removeClass("offScreen");
+        miniGameEnd();
     }
     if(mole_miss>=3+level*2){ // 두더지 게임 패배
         alert("You Lose");
@@ -796,7 +800,12 @@ function molegame_winlose_chk(){
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         $("#main_game").removeClass("offScreen");
-        is_gameover = false;
-        anim = requestAnimationFrame(draw_main_game);
+        miniGameEnd();
     }
+}
+
+function miniGameEnd() {
+    is_gameover = false;
+    anim - requestAnimationFrame(draw_main_game);
+    $("#waitScreen").addClass("offScreen");
 }

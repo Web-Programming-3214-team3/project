@@ -128,11 +128,10 @@ canvas {
 }
 
 #key_game {
-    margin: 200px 250px;
     width:400px;
     height:100px;
-    border-style: solid;   
-
+    border-style: 1px solid black;   
+    background-color: white;
 }
 
 #key_zone {
@@ -222,4 +221,17 @@ canvas {
     top: 0;
     width: 800px; height: 600px;
     background-color: black;
+}
+
+#waitScreen {
+    position: absolute;
+    top: 0;
+    width: 800px; height: 600px;
+    background-color: gray;
+    opacity: 0.5;
+}
+
+.miniGame {
+    position: absolute;
+    top: 0;
 }

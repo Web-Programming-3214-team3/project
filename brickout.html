@@ -60,8 +60,9 @@
             <button id="HP25" class="setBossHP">25%</button>
             <button id="HP05" class="setBossHP">5%</button>
             <!--////////////-->
+            <div id="waitScreen" class="offScreen"></div>
         </div>
-        <div id="key_game" class="gameScreen offScreen">
+        <div id="key_game" class="gameScreen miniGame offScreen">
             <div id="key_zone">
                 <div class="input_keys">
                     <img class="key_img" value = "0">
@@ -86,12 +87,12 @@
                 <input type="text" >
             </div>
         </div>
-        <div id="board_game" class="gameScreen offScreen">
+        <div id="board_game" class="gameScreen miniGame offScreen">
             <div id="board">
             </div>
             <h1>Turns: <span id="turns">0</span></h1>
         </div>
-        <div id="whack-a-mole_game" class="gameScreen offScreen">
+        <div id="whack-a-mole_game" class="gameScreen miniGame offScreen">
             <h2>Whack-A-Mole Game</h2>
             <h2><span id="catch">잡은 횟수: 0 / 놓친 횟수: 0</span></h2>
             <div id="moleground">

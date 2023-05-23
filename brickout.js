@@ -37,6 +37,7 @@ var animation;
         
 var my_life = (4 - level) * 2;
 
+var mainBgm = new Audio("mainBgm.mp3");
 // main game canvas 기본 세팅
 //var mainGameCanvas = document.getElementById("mainGameCanvas");
 //var mainGameContext = mainGameCanvas.getContext('2d');
@@ -94,11 +95,11 @@ $(document).ready(function(){
         soundEffect = parseInt($(this).val());
         console.log("sound effect :", soundEffect);
     });
-
     // 배경음악 수정
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
         BGM = parseInt($(this).val());
+        mainBgm.volume = BGM/10;
         console.log("BGM :", BGM);
     });
 
@@ -106,7 +107,8 @@ $(document).ready(function(){
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
-
+        mainBgm.loop = true;
+        mainBgm.play();
         var showTime = 2300;
         var term = 2000;
 
@@ -288,6 +290,7 @@ $(document).ready(function(){
 // 게임 시작 함수
 var start = false;
 function startGame() {
+    mainBgm.pause;
     if (!start) {
         start = true;
         $("#storyScreen").addClass("offScreen");
@@ -307,13 +310,26 @@ function startGame() {
         }, 1000);
     }
 }
+
+//phase 2
+function goPhase2(){
+    mainBgm.setAttribute("src","phase2.mp3");
+    console.log(mainBgm.src);
+    mainBgm.play();
+}
+
 let backImg = new Image(); // 배경이미지
 let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
+let effectSound = [paddleEffect, gameoverBgm, breakSound, missSound];
 var paddleEffect = new Audio("fireball.mp3");
 var gameoverBgm = new Audio("gameover.mp3");
+var breakSound = new Audio("break.wav");
+var missSound = new Audio("miss.mp3");
 //main game 함수
 function main_game() {
+    mainBgm.src = "phase1.mp3";
+    mainBgm.play();
     //canvas 가져오기
     var $c = $('#mainGameCanvas');
 
@@ -408,6 +424,7 @@ function draw_main_game() {
             }
             if (bossHP == 1000*level*0.5) {
                 board_game();
+                goPhase2();
             }
             if (bossHP == 1000*level*0.25) {
                 wam_game();
@@ -433,6 +450,7 @@ function draw_main_game() {
                 dy = -dy;
                 my_life--;
                 draw_life();
+                missSound.play();
                 if(my_life <= 0){
                     is_gameover = true;
                 }
@@ -442,6 +460,7 @@ function draw_main_game() {
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
         if (my_life <= 0) {
+            mainBgm.pause();
             gameoverBgm.play();
             $("#loseEndingScreen").fadeIn(3000);
             setTimeout(function() {

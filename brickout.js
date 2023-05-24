@@ -15,7 +15,9 @@ var mole_miss=0;            // 두더지 놓친 횟수
 
 var width, height;
 var x = 150, y = 400, radius = 10;
+var dmg=1;
 var dx = 5, dy = 5;
+
 
 var x_left, x_right;
 var is_gameover = false;
@@ -27,7 +29,7 @@ var move_left = false, move_right = false;
 var context;
 var animation;
         
-var my_life = (4 - level) * 2;
+var my_life = (4 - level) * 3;
 
 var mainBgm = new Audio("mainBgm.mp3");
 // main game canvas 기본 세팅
@@ -344,17 +346,22 @@ function main_game() {
     ballImg.src = "fireball.png";
     marioImg.src = "mario.png";
     brickImg.src = "brick.png";
+    brickInterval();
     brickGenerator();
     animation = window.requestAnimationFrame(draw_main_game);
 }
 var generate;
-var initInterval = level * 4000;
+var initInterval = level * 3000;
 function brickGenerator(){
     generate = setInterval(brickInterval,initInterval);
 }
 function brickInterval(){
     var pos = Math.floor(Math.random()*4);
     init_Brick(pos);
+    if(bossHP<=500*level){
+        pos = Math.floor(Math.random()*4);
+        init_Brick(pos);
+    }
 }
 // 벽돌 생성
 function init_Brick(position){
@@ -362,7 +369,15 @@ function init_Brick(position){
         posX : position * width/4,
         posY : 0,
         check : function(){
-
+            if((x > this.posX && x < this.posX+200)&&(y>this.posY && y<this.posY+66)){
+                return -1;
+            }
+            else if(this.posY>600){
+                return 0;
+            }
+            else{
+                return 1;
+            }
         }
     };
     bricks.push(brick);
@@ -370,12 +385,28 @@ function init_Brick(position){
 
 function brickManager(){
     for(var i = 0; i<bricks.length; i++){
-        bricks[i].posY += level;
-        bricks[i].check();
-        context.drawImage(brickImg,bricks[i].posX,bricks[i].posY,200,66);
+        bricks[i].posY += level/4;
+        var C = bricks[i].check();
+        if(C == -1){
+            bricks.splice(i,1);
+            breakSound.play();
+            dy = -dy;
+            dmg=1;
+            if(ballImg.src == "fireballup.png"){
+                ballImg.setAttribute("src","fireball.png");
+            }
+            break;
+        }else if(C == 0){
+            bricks.splice(i,1);
+            missSound.play();
+            my_life--;
+        }else{
+            context.drawImage(brickImg,bricks[i].posX,bricks[i].posY,200,66);
+        }
     }
 }
 function draw_main_game() {
+    console.log(dmg);
     clear();
     draw_life();
     context.drawImage(backImg,0,0,800,600);
@@ -449,11 +480,20 @@ function draw_main_game() {
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         dx = -dx;
-
+        dmg=2;
+        ballImg.setAttribute("src","fireballup.png");
+        
     }
 
     //천장에 부딪혔을 때
-    if (y <= 0 + radius) {
+    if (y <= 0) {
+        bossHP -= damage*dmg;
+        dmg=1;
+        if(ballImg.getAttribute("src") == "fireballup.png"){
+            ballImg.setAttribute("src","fireball.png");
+        }
+
+        dy = -dy;
 
         if(hitstack==0){
             hit1.play();
@@ -463,8 +503,7 @@ function draw_main_game() {
             hitstack = (hitstack+1)%2;
         
         }
-        bossHP -= damage;
-        dy = -dy;
+
 
         console.log("Boss HP : " + bossHP);
 
@@ -522,6 +561,8 @@ function draw_main_game() {
     }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
+        clearInterval(generate);
+        generate = null;
         if (my_life <= 0) {
             mainBgm.setAttribute("src","gameover.mp3");
             mainBgm.loop = false;
@@ -534,7 +575,9 @@ function draw_main_game() {
     } 
     else {
         anim = window.requestAnimationFrame(draw_main_game);
-
+        if(generate==null){
+            generate = setInterval(brickInterval,initInterval);
+        }
     }
 }
 function clear() {

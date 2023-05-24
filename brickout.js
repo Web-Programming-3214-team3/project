@@ -918,7 +918,7 @@ function wam_game(){
         $("#whack-a-mole_game").animate({"margin":"0", "width":"800px", "height":"600px"});
         $("#whack-a-mole_game").css({"margin":"0", "width":"800px", "height":"600px"});
     }
-    moletimer = setInterval(mole_pop,850-100*level); // 난이도에 따라 시간 감소
+    moletimer = setInterval(mole_pop,825-75*level); // 난이도에 따라 시간 감소
 }
 
 // 두더지 출몰 함수
@@ -931,6 +931,10 @@ function mole_pop(){
     // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
+    if(randomX<250 && randomY<50){ //잡은 횟수 놓친 횟수 글자를 가릴 경우 처리
+        randomX+=250;
+        randomY+=50;
+    }
     var image=$("<img>").attr("src", "mole.png");
     image.css({
         width: 100,

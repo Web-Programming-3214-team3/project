@@ -24,14 +24,6 @@ var is_gameover = false;
 var paddlex, paddle_height, paddle_width;
 var move_left = false, move_right = false;
 
-//bricks
-var bricks;
-var row_number; // 벽돌의 행 갯수
-var col_number; // 벽돌의 열 갯수
-var brick_width;
-var brick_height;
-var PADDING;
-
 var context;
 var animation;
         
@@ -305,7 +297,7 @@ function startGame() {
                 setTimeout(function() {
                     main_game(); 
                     init_paddle(); 
-                    init_bricks();
+                    //init_bricks();
                 }, 1200);
             }, 1300);
         }, 1100);
@@ -322,6 +314,8 @@ function goPhase2(){
 let backImg = new Image(); // 배경이미지
 let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
+let brickImg = new Image();
+let bricks = []; // 벽돌듯
 let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh];
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -350,13 +344,35 @@ function main_game() {
     backImg.src = "background.png";
     ballImg.src = "fireball.png";
     marioImg.src = "mario.png";
+    brickImg.src = "brick.png";
+    init_Brick(1);
     animation = window.requestAnimationFrame(draw_main_game);
+    
+}
+// 벽돌 생성
+function init_Brick(position){
+    var brick = {
+        posX : position * width/4,
+        posY : 0,
+        check : function(){
+
+        }
+    };
+    bricks.push(brick);
 }
 
+function brickManager(){
+    for(var i = 0; i<bricks.length; i++){
+        bricks[i].posY += level;
+        bricks[i].check();
+        context.drawImage(brickImg,bricks[i].posX,bricks[i].posY,200,66);
+    }
+}
 function draw_main_game() {
     clear();
     draw_life();
     context.drawImage(backImg,0,0,800,600);
+    brickManager();
     //key 입력 event
     $(document).on('keydown', function(e) {
         if (e.which == 37) {
@@ -392,6 +408,7 @@ function draw_main_game() {
 
     paddle(paddlex, height - paddle_height, paddle_width, paddle_height);
 
+    /*
     //draw bricks
     for (i = 0; i < row_number; i++) { 
         for (j = 0; j < col_number; j++) {
@@ -400,7 +417,7 @@ function draw_main_game() {
             }
         }
     }
-
+    */
     //paddle 움직이기
     if (move_left && paddlex > 0) { // 왼쪽으로 이동
         paddlex -= 10;
@@ -408,12 +425,12 @@ function draw_main_game() {
     if (move_right && paddlex + paddle_width < width) { // 오른쪽으로 이동
         paddlex += 10;
     }
-
+    /*
     //벽돌에 부딪혔을 때
     if(y>200){
         var row = Math.floor( (y-200)  / (brick_height) );
     }
-
+    
     var col = Math.floor( x / (brick_width));
     if (row < row_number) { 
         if (bricks[row][col] >= 30) {
@@ -421,7 +438,7 @@ function draw_main_game() {
             bricks[row][col] = 0;
         }
     }
-
+*/
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         dx = -dx;
@@ -545,7 +562,7 @@ function init_paddle() {
     paddle_height = 20;
     paddle_width = 100;
 }
-
+/*
 //main game의 벽돌 설정
 function init_bricks() {
     row_number = 3;
@@ -562,7 +579,7 @@ function init_bricks() {
         }
     }
 }
-
+*/
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
     context.font = "16px bitbit";

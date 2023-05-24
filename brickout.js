@@ -346,15 +346,15 @@ function main_game() {
     brickImg.src = "brick.png";
     brickGenerator();
     animation = window.requestAnimationFrame(draw_main_game);
-    bossManager();
 }
 var generate;
-var initInterval = level * 5;
+var initInterval = level * 4000;
 function brickGenerator(){
-    generate = setinterval(brickInterval,initInterval);
+    generate = setInterval(brickInterval,initInterval);
 }
 function brickInterval(){
-    
+    var pos = Math.floor(Math.random()*4);
+    init_Brick(pos);
 }
 // 벽돌 생성
 function init_Brick(position){

@@ -958,7 +958,7 @@ function molegame_winlose_chk(){
         $("#main_game").removeClass("offScreen");
         miniGameEnd();
     }
-    if(mole_miss>=3+level*2){ // 두더지 게임 패배
+    if(mole_miss>=5){ // 두더지 게임 패배
         wamFirst = false;
         alert("You Lose");
         bossHP += 5*damage;

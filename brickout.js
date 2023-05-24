@@ -297,7 +297,6 @@ function startGame() {
                 setTimeout(function() {
                     main_game(); 
                     init_paddle(); 
-                    //init_bricks();
                 }, 1200);
             }, 1300);
         }, 1100);
@@ -345,8 +344,16 @@ function main_game() {
     ballImg.src = "fireball.png";
     marioImg.src = "mario.png";
     brickImg.src = "brick.png";
-    init_Brick(1);
+    brickGenerator();
     animation = window.requestAnimationFrame(draw_main_game);
+    bossManager();
+}
+var generate;
+var initInterval = level * 5;
+function brickGenerator(){
+    generate = setinterval(brickInterval,initInterval);
+}
+function brickInterval(){
     
 }
 // 벽돌 생성
@@ -527,6 +534,7 @@ function draw_main_game() {
     } 
     else {
         anim = window.requestAnimationFrame(draw_main_game);
+
     }
 }
 function clear() {

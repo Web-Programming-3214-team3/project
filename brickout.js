@@ -53,6 +53,8 @@ $(document).ready(function(){
 
     // 난이도 변경 버튼 : 누를 때마다 난이도 변경(loop)
     $("#levelButton").on("click", function () {
+        selectSound.load();
+        selectSound.play();
         var levelText = $(this).text();
         if (levelText == "난이도 : 하") {
             level = 2;
@@ -73,12 +75,16 @@ $(document).ready(function(){
 
     // 환경 설정 버튼 : 누르면 환경설정으로 이동
     $("#settingButton").on("click", function () {
+        selectSound.load();
+        selectSound.play();
         $("#startScreen").addClass("offScreen");
         $("#settingScreen").removeClass("offScreen");
     });
 
     // 홈 버튼 : 환경 설정에서 시작 화면으로 이동
     $("#homeButton").on("click", function () {
+        selectSound.load();
+        selectSound.play();
         $("#settingScreen").addClass("offScreen");
         $("#startScreen").removeClass("offScreen");
     });
@@ -99,6 +105,7 @@ $(document).ready(function(){
 
     // 게임 시작 버튼
     $("#startButton").on("click", function () {
+        startEff.play();
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
         mainBgm.loop = true;
@@ -318,7 +325,7 @@ let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
 let brickImg = new Image();
 let bricks = []; // 벽돌듯
-let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh];
+let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh, miniGameFail, miniGameClear, selectSound, finalPhase];
 
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -327,6 +334,11 @@ var missSound = new Audio("miss.mp3");
 var hit1 = new Audio("hit1.mp3");
 var hit2 = new Audio("hit2.mp3");
 var laugh = new Audio("startminiGame.mp3");
+var startEff = new Audio("start.mp3");
+var miniGameFail = new Audio("fail.mp3");
+var miniGameClear = new Audio("clearMini.mp3");
+var selectSound = new Audio("select.mp3");
+var finalPhase = new Audio("finalPhase.mp3");
 var hitstack = 0;
 var isBall = false; // 공이 있는지
 //main game 함수
@@ -361,6 +373,7 @@ function effectSoundVolume(){
 }
 var generate;
 var initInterval = level * 3000;
+var playFinalPhase = false; 
 function brickGenerator(){
     generate = setInterval(brickInterval,initInterval);
 }
@@ -368,6 +381,14 @@ function brickInterval(){
     var pos = Math.floor(Math.random()*4);
     init_Brick(pos);
     if(bossHP<=500*level){
+        pos = Math.floor(Math.random()*4);
+        init_Brick(pos);
+    }
+    if(bossHP<=150*level){
+        if(playFinalPhase == false){
+            playFinalPhase = true;
+            finalPhase.play();
+        }
         pos = Math.floor(Math.random()*4);
         init_Brick(pos);
     }
@@ -712,6 +733,7 @@ function keyGame(){
         }
         else{
             //$("#key_game").addClass("offScreen");
+            miniGameClear.play();
             console.log("Success");
             EndKeyGame();
         }
@@ -722,6 +744,7 @@ function keyGame(){
         clearInterval(downloadTimer);
         //$("#key_game").addClass("offScreen");
         bossHP += 5*damage;
+        miniGameFail.play();
         console.log("Fail");
         EndKeyGame();
     }
@@ -843,7 +866,7 @@ function checkWin(){
             winning_cond = 0;
         }
         if (winning_cond == (rows*columns)){
-            alert("You Win");
+            miniGameClear.play();
             $("#board_game").addClass("offScreen");
             miniGameEnd();
             document.getElementById("turns").innerText = 0;
@@ -904,7 +927,7 @@ function dragEnd() {
     if(turns > max_turn){
         boardGameFirst = false;
         var parent = document.getElementById("board");
-        alert("You Lose");
+        miniGameFail.play();
         bossHP += 5*damage;
         $("#board_game").addClass("offScreen");
         miniGameEnd();
@@ -966,14 +989,14 @@ function catchcmiss_show(){
 // mole game 승리 패배 확인 함수
 function molegame_winlose_chk(){
     if(mole_catch>=3+level*2){ // 두더지 게임 승리
-        alert("You Win");
+        miniGameClear.play();
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         miniGameEnd();
     }
     if(mole_miss>=5){ // 두더지 게임 패배
         wamFirst = false;
-        alert("You Lose");
+        miniGameFail.play();
         bossHP += 5*damage;
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");

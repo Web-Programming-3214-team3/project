@@ -339,8 +339,10 @@ var miniGameFail = new Audio("fail.mp3");
 var miniGameClear = new Audio("clearMini.mp3");
 var selectSound = new Audio("select.mp3");
 var finalPhase = new Audio("finalPhase.mp3");
+var bounce = new Audio("bounce.mp3");
 var hitstack = 0;
 var isBall = false; // 공이 있는지
+var bounce = new Audio("bounce.mp3");
 //main game 함수
 function main_game() {
     mainBgm.loop = true;
@@ -509,6 +511,7 @@ function draw_main_game() {
 */
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
+        bounce.play();
         dx = -dx;
         dmg=2;
         ballImg.setAttribute("src","fireballup.png");
@@ -517,7 +520,7 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0) {
-        if((bossHP-damage)/level == 750 || bossHP - damage*dmg < 0){
+        if((bossHP-damage)/level == 750 || bossHP-damage)/level == 500 || bossHP-damage)/level == 250 || bossHP - damage*dmg < 0){
             dmg = 1;
         }
         bossHP -= damage*dmg;

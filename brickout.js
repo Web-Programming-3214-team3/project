@@ -239,7 +239,7 @@ $(document).ready(function(){
 
             clearInterval(moletimer);
             setTimeout(function() { // 잡았을 시 잠시 대기
-                moletimer=setInterval(mole_pop,850-100*level);
+                moletimer=setInterval(mole_pop,825-75*level);
             }, 100);
         }
     });

@@ -1,17 +1,17 @@
-var level = 2;              // ?��?��?�� 기본 ?��?�� : �?(2)
+var level = 2;              // 난이도 기본 설정 : 중(2)
 var bossHP = 1000*level;    // 보스체력
-var damage = 50;			// ?��?��?��
-var velocity = level;       // 벽돌 ?��?���??�� ?��?��, 미니게임 ?��?��
+var damage = 50;			// 피해량
+var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
 
-var soundEffect = 5;        // ?��과음 ?���?
-var BGM = 5;                // 배경?��?�� ?���?
-var skip = false;           // ?��?���? ?��?�� ?���?
+var soundEffect = 5;        // 효과음 크기
+var BGM = 5;                // 배경음악 크기
+var skip = false;           // 스토리 스킵 여부
 
-var keyGameCount = 5;       // Key Game 반복 ?��?��
-var keyGametimer = 100; // Key Game ?��??? ?���?
+var keyGameCount = 5;       // Key Game 반복 횟수
+var keyGametimer = 100; // Key Game 남은 시간
 
-var mole_catch=0;           // ?��?���? ?��??? ?��?��
-var mole_miss=0;            // ?��?���? ?���? ?��?��
+var mole_catch=0;           // 두더지 잡은 횟수
+var mole_miss=0;            // 두더지 놓친 횟수
 
 var width, height;
 var x = 150, y = 400, radius = 10;
@@ -32,12 +32,12 @@ var animation;
 var my_life = (4 - level) * 3;
 
 var mainBgm = new Audio("mainBgm.mp3");
-// main game canvas 기본 ?��?��
+// main game canvas 기본 세팅
 //var mainGameCanvas = document.getElementById("mainGameCanvas");
 //var mainGameContext = mainGameCanvas.getContext('2d');
 
 $(document).ready(function(){
-    // ?��?�� ?���? 버튼 ?��?��
+    // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
         $(this).css({"text-shadow":"0 3px 0 darkgreen", "font-size":"35px"});
     });
@@ -51,45 +51,45 @@ $(document).ready(function(){
         $(this).css({"text-shadow":"none", "line-height":"80px", "font-size":"33px"});
     });
 
-    // ?��?��?�� �?�? 버튼 : ?���? ?��마다 ?��?��?�� �?�?(loop)
+    // 난이도 변경 버튼 : 누를 때마다 난이도 변경(loop)
     $("#levelButton").on("click", function () {
         var levelText = $(this).text();
-        if (levelText == "?��?��?�� : ?��") {
+        if (levelText == "난이도 : 하") {
             level = 2;
-            $(this).text("?��?��?�� : �?");
+            $(this).text("난이도 : 중");
         }
-        if (levelText == "?��?��?�� : �?") {
+        if (levelText == "난이도 : 중") {
             level = 3;
-            $(this).text("?��?��?�� : ?��");
+            $(this).text("난이도 : 상");
         }
-        if (levelText == "?��?��?�� : ?��") {
+        if (levelText == "난이도 : 상") {
             level = 1;
-            $(this).text("?��?��?�� : ?��");
+            $(this).text("난이도 : 하");
         }
         console.log("level :", level);
         bossHP = 1000*level;
         velocity = level;
     });
 
-    // ?���? ?��?�� 버튼 : ?��르면 ?��경설?��?���? ?��?��
+    // 환경 설정 버튼 : 누르면 환경설정으로 이동
     $("#settingButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#settingScreen").removeClass("offScreen");
     });
 
-    // ?�� 버튼 : ?���? ?��?��?��?�� ?��?�� ?��면으�? ?��?��
+    // 홈 버튼 : 환경 설정에서 시작 화면으로 이동
     $("#homeButton").on("click", function () {
         $("#settingScreen").addClass("offScreen");
         $("#startScreen").removeClass("offScreen");
     });
 
-    // ?��과음 ?��?��
+    // 효과음 수정
     $("#soundEffect").on("click", function () {
         $("#soundEffectNum").text($(this).val());
         soundEffect = parseInt($(this).val());
         console.log("sound effect :", soundEffect);
     });
-    // 배경?��?�� ?��?��
+    // 배경음악 수정
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
         BGM = parseInt($(this).val());
@@ -97,7 +97,7 @@ $(document).ready(function(){
         console.log("BGM :", BGM);
     });
 
-    // 게임 ?��?�� 버튼
+    // 게임 시작 버튼
     $("#startButton").on("click", function () {
         $("#startScreen").addClass("offScreen");
         $("#storyScreen").removeClass("offScreen");
@@ -155,7 +155,7 @@ $(document).ready(function(){
         }, (showTime+2*term)*3);
     });
 
-    // ?��?���? ?��?�� 버튼 ?��?��
+    // 스토리 스킵 버튼 설정
     $("#skipButton").mouseover(function () {
         $(this).css({"top":"548px", "width":"788px", "text-shadow":"2px 2px 0 darkgray"});
     });
@@ -171,7 +171,7 @@ $(document).ready(function(){
         $(this).css({"top":"550px", "width":"790px", "text-shadow":"none"});
     });
 
-    // ?��?���? ?��?��?���? 메인 게임 ?��?��
+    // 스토리 스킵하면 메인 게임 시작
     $("#skipButton").on("click", function () {
         skip = true;
 		$("#skipCurtain").css({"margin":"300px 400px", "width":"0", "height":"0", "opacity":"0"});
@@ -226,7 +226,7 @@ $(document).ready(function(){
     });
 
     $("#mole").mousedown(function() {
-        if($("#mole img:first-child").attr("src")=="koopa.png"){ // ?���? ?��?�� 경우?���?
+        if($("#mole img:first-child").attr("src")=="koopa.png"){ // 잡기 전인 경우에만
             breakSound.play();
             mole_catch++;
             catchcmiss_show();
@@ -239,13 +239,13 @@ $(document).ready(function(){
             $("#mole").append(image);
 
             clearInterval(moletimer);
-            setTimeout(function() { // ?��?��?�� ?�� ?��?�� ???�?
+            setTimeout(function() { // 잡았을 시 잠시 대기
                 moletimer=setInterval(mole_pop,825-75*level);
             }, 100);
         }
     });
     // $("#mole").on("click",function(){
-    //     if($("#mole img:first-child").attr("src")=="mole.png"){ // ?���? ?��?�� 경우?���?
+    //     if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
     //         mole_catch++;
     //         catchcmiss_show();
     //         $("#mole").empty();
@@ -257,22 +257,22 @@ $(document).ready(function(){
     //         $("#mole").append(image);
 
     //         clearInterval(moletimer);
-    //         setTimeout(function() { // ?��?��?�� ?�� ?��?�� ???�?
+    //         setTimeout(function() { // 잡았을 시 잠시 대기
     //             moletimer=setInterval(mole_pop,850-100*level);
     //         }, 100);
     //     }
     // });
 
 
-    // 보스?�� ?���? 75%?�� 경우 Key Game ?��?��
+    // 보스의 피가 75%인 경우 Key Game 실행
     $("#HP75").on("click", function () {
         bossHP = 1000 * level * 0.75 + damage;
     });
-    // 보스?�� ?���? 50%?�� 경우 Board Game ?��?��
+    // 보스의 피가 50%인 경우 Board Game 실행
     $("#HP50").on("click", function () {
         bossHP = 1000 * level * 0.50 + damage;
     });
-    // 보스?�� ?���? 25%?�� 경우 Mole Game ?��?��
+    // 보스의 피가 25%인 경우 Mole Game 실행
     $("#HP25").on("click", function () {
         bossHP = 1000 * level * 0.25 + damage;
     });
@@ -282,7 +282,7 @@ $(document).ready(function(){
     
 });
 
-// 게임 ?��?�� ?��?��
+// 게임 시작 함수
 var start = false;
 function startGame() {
     if (!start) {
@@ -313,11 +313,11 @@ function goPhase2(){
     mainBgm.play();
 }
 
-let backImg = new Image(); // 배경?��미�??
-let ballImg = new Image(); // �? ?��미�??
-let marioImg = new Image(); // 마리?�� ?��미�??
+let backImg = new Image(); // 배경이미지
+let ballImg = new Image(); // 볼 이미지
+let marioImg = new Image(); // 마리오 이미지
 let brickImg = new Image();
-let bricks = []; // 벽돌?��
+let bricks = []; // 벽돌듯
 let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh];
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -327,13 +327,13 @@ var hit1 = new Audio("hit1.mp3");
 var hit2 = new Audio("hit2.mp3");
 var laugh = new Audio("startminiGame.mp3");
 var hitstack = 0;
-var isBall = false; // 공이 ?��?���?
-//main game ?��?��
+var isBall = false; // 공이 있는지
+//main game 함수
 function main_game() {
     mainBgm.loop = true;
     mainBgm.src = "phase1.mp3";
     mainBgm.play();
-    //canvas �??��?���?
+    //canvas 가져오기
     var $c = $('#mainGameCanvas');
 
     context = $c.get(0).getContext('2d');
@@ -364,7 +364,7 @@ function brickInterval(){
         init_Brick(pos);
     }
 }
-// 벽돌 ?��?��
+// 벽돌 생성
 function init_Brick(position){
     var brick = {
         posX : position * width/4,
@@ -412,7 +412,7 @@ function draw_main_game() {
     draw_life();
     context.drawImage(backImg,0,0,800,600);
     brickManager();
-    //key ?��?�� event
+    //key 입력 event
     $(document).on('keydown', function(e) {
         if (e.which == 37) {
             move_left = true;
@@ -437,7 +437,7 @@ function draw_main_game() {
             isBall = true;
         }
     })
-    //ball �? paddle 그리�?
+    //ball 과 paddle 그리기
     if(isBall){
 
         ball(x, y, radius);
@@ -452,20 +452,20 @@ function draw_main_game() {
     for (i = 0; i < row_number; i++) { 
         for (j = 0; j < col_number; j++) {
             if (bricks[i][j] >= 30) {    
-                rect(j * brick_width, i * brick_height + 200, brick_width - 1, brick_height -1); // +200 �????
+                rect(j * brick_width, i * brick_height + 200, brick_width - 1, brick_height -1); // +200 지움
             }
         }
     }
     */
-    //paddle ???직이�?
-    if (move_left && paddlex > 0) { // ?��쪽으�? ?��?��
+    //paddle 움직이기
+    if (move_left && paddlex > 0) { // 왼쪽으로 이동
         paddlex -= 10;
     }
-    if (move_right && paddlex + paddle_width < width) { // ?��른쪽?���? ?��?��
+    if (move_right && paddlex + paddle_width < width) { // 오른쪽으로 이동
         paddlex += 10;
     }
     /*
-    //벽돌?�� �??��?��?�� ?��
+    //벽돌에 부딪혔을 때
     if(y>200){
         var row = Math.floor( (y-200)  / (brick_height) );
     }
@@ -478,7 +478,7 @@ function draw_main_game() {
         }
     }
 */
-    //벽에 �??��?��?�� ?��
+    //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         dx = -dx;
         dmg=2;
@@ -486,7 +486,7 @@ function draw_main_game() {
         
     }
 
-    //천장?�� �??��?��?�� ?��
+    //천장에 부딪혔을 때
     if (y <= 0) {
         bossHP -= damage*dmg;
         dmg=1;
@@ -508,7 +508,7 @@ function draw_main_game() {
 
         console.log("Boss HP : " + bossHP);
 
-        // 미니게임 ?��?��
+        // 미니게임 실행
         if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
             is_gameover = true;
             $("#waitScreen").removeClass("offScreen");
@@ -536,17 +536,17 @@ function draw_main_game() {
         }
     }
 
-    //바닥?�� �??��?���? 직전?��
+    //바닥에 부딪히기 직전에
     else if (y >= height - radius - paddle_height) {
-        //paddle?�� �??��?��?���?
+        //paddle에 부딪힌다면
         if(isBall){
             if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
                 dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
                 dy = -dy;
                 paddleEffect.play();
             }
-            else {  //paddle?�� �??��?���? ?���?
-                if (y >= height - radius) { // 바닥?�� �??��?��?���?
+            else {  //paddle에 부딪히지 않고
+                if (y >= height - radius) { // 바닥에 부딪힌다면
                     isBall = false;
                     dy = -dy;
                     my_life--;
@@ -586,7 +586,7 @@ function clear() {
     context.clearRect(0, 0, width, height);
 }
 
-// �? 그리�?
+// 공 그리기
 function ball(x, y, r) {
     /*
     context.beginPath();
@@ -597,7 +597,7 @@ function ball(x, y, r) {
     context.drawImage(ballImg,x,y,2*r,2*r);
 }
 
-// paddle & 벽돌 그리�?
+// paddle & 벽돌 그리기
 function rect(x, y, w, h) {
     context.beginPath();
     context.rect(x, y, w, h);
@@ -608,14 +608,14 @@ function paddle(x,y,w,h){
     context.drawImage(marioImg,x,y-40,w,100);
 }
 
-//main game?�� paddle ?��?��
+//main game의 paddle 설정
 function init_paddle() {
     paddlex = width / 2;
     paddle_height = 20;
     paddle_width = 100;
 }
 /*
-//main game?�� 벽돌 ?��?��
+//main game의 벽돌 설정
 function init_bricks() {
     row_number = 3;
     col_number = 4;
@@ -632,7 +632,7 @@ function init_bricks() {
     }
 }
 */
-//main game?�� ?��?��?�� life??? 보스 Hp 출력
+//main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
     context.font = "16px bitbit";
     context.fillStyle = "#234529";
@@ -644,7 +644,7 @@ function draw_life(){
     Hp_bar.innerHTML= bossHP+"/"+(1000*level)+" ("+Boss_HP+"%)";
 }
 
-// Key Game ?��?��
+// Key Game 함수
 var keyGameFirst = false;
 function keyGame(){
     var arrows = ["key_down.png", "key_up.png","key_left.png","key_right.png"];
@@ -722,7 +722,7 @@ function drawBossHP() {
 
 }
 
-//Board Game ?��?��
+//Board Game 함수
 var rows = 3;
 var columns = 3;
 var text = "";
@@ -902,7 +902,7 @@ function dragEnd() {
     }else{}
     
 }
-// ?��?���? ?���? 게임
+// 두더지 잡기 게임
 var moletimer;
 var wamFirst = false;
 function wam_game(){
@@ -915,20 +915,20 @@ function wam_game(){
         $("#whack-a-mole_game").animate({"margin":"0", "width":"800px", "height":"600px"});
         $("#whack-a-mole_game").css({"margin":"0", "width":"800px", "height":"600px"});
     }
-    moletimer = setInterval(mole_pop,825-75*level); // ?��?��?��?�� ?��?�� ?���? 감소
+    moletimer = setInterval(mole_pop,825-75*level); // 난이도에 따라 시간 감소
 }
 
-// ?��?���? 출몰 ?��?��
+// 두더지 출몰 함수
 function mole_pop(){
     molegame_winlose_chk();
     if($("#mole img:first-child").attr("src")=="koopa.png"){
         mole_miss++;
         catchcmiss_show();
     }
-    // ?���? ?�� ?��?��?�� 좌표?�� ?��?���? 출몰
+    // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
-    if(randomX<250 && randomY<50){ //?��??? ?��?�� ?���? ?��?�� �??���? �?�? 경우 처리
+    if(randomX<250 && randomY<50){ //잡은 횟수 놓친 횟수 글자를 가릴 경우 처리
         randomX+=250;
         randomY+=50;
     }
@@ -945,20 +945,20 @@ function mole_pop(){
     $("#mole").append(image);
 }
 
-// ?��?���? ?��??? ?��?��, ?���? ?��?�� ?��?�� ?��?��
+// 두더지 잡은 횟수, 놓친 횟수 표시 함수
 function catchcmiss_show(){ 
-    document.getElementById("catch").innerText = "Catch : "+mole_catch+" / Fail : "+mole_miss;
+    document.getElementById("catch").innerText = "잡은 횟수: "+mole_catch+" / 놓친 횟수: "+mole_miss;
 }
 
-// mole game ?���? ?���? ?��?�� ?��?��
+// mole game 승리 패배 확인 함수
 function molegame_winlose_chk(){
-    if(mole_catch>=3+level*2){ // ?��?���? 게임 ?���?
+    if(mole_catch>=3+level*2){ // 두더지 게임 승리
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         miniGameEnd();
     }
-    if(mole_miss>=5){ // ?��?���? 게임 ?���?
+    if(mole_miss>=5){ // 두더지 게임 패배
         wamFirst = false;
         alert("You Lose");
         bossHP += 5*damage;

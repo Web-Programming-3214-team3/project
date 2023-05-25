@@ -519,7 +519,7 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0) {
-        if((bossHP-damage)/level == 750 || (bossHP-damage)/level == 500 || (bossHP-damage/level) == 250 || (bossHP - damage*dmg) < 0){
+        if((bossHP-damage)/level == 750 || (bossHP-damage)/level == 500 || (bossHP-damage)/level == 250 || (bossHP - damage*dmg) < 0){
             dmg = 1;
         }
         bossHP -= damage*dmg;

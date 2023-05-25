@@ -325,7 +325,7 @@ let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
 let brickImg = new Image();
 let bricks = []; // 벽돌듯
-let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh, miniGameFail, miniGameClear, selectSound, finalPhase];
+let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh, miniGameFail, miniGameClear, selectSound, finalPhase, bounce];
 
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -342,7 +342,6 @@ var finalPhase = new Audio("finalPhase.mp3");
 var bounce = new Audio("bounce.mp3");
 var hitstack = 0;
 var isBall = false; // 공이 있는지
-var bounce = new Audio("bounce.mp3");
 //main game 함수
 function main_game() {
     mainBgm.loop = true;
@@ -520,7 +519,7 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0) {
-        if((bossHP-damage)/level == 750 || bossHP-damage)/level == 500 || bossHP-damage)/level == 250 || bossHP - damage*dmg < 0){
+        if((bossHP-damage)/level == 750 || (bossHP-damage)/level == 500 || (bossHP-damage/level) == 250 || (bossHP - damage*dmg) < 0){
             dmg = 1;
         }
         bossHP -= damage*dmg;

@@ -18,7 +18,6 @@ var x = 150, y = 400, radius = 10;
 var dmg=1;
 var dx = 5, dy = 5;
 
-var miniGameStage = 0;
 
 var x_left, x_right;
 var is_gameover = false;
@@ -268,21 +267,17 @@ $(document).ready(function(){
     // 보스의 피가 75%인 경우 Key Game 실행
     $("#HP75").on("click", function () {
         bossHP = 1000 * level * 0.75 + damage;
-        miniGameStage = 0;
     });
     // 보스의 피가 50%인 경우 Board Game 실행
     $("#HP50").on("click", function () {
         bossHP = 1000 * level * 0.50 + damage;
-        miniGameStage = 1;
     });
     // 보스의 피가 25%인 경우 Mole Game 실행
     $("#HP25").on("click", function () {
         bossHP = 1000 * level * 0.25 + damage;
-        miniGameStage = 2;
     });
     $("#HP05").on("click", function () {
         bossHP = 1000 * level * 0.05;
-        miniGameStage = 3;
     })
     
 });
@@ -501,7 +496,11 @@ function draw_main_game() {
 
     //천장에 부딪혔을 때
     if (y <= 0) {
+        if((bossHP-damage)/level == 750 || bossHP - damage*dmg < 0){
+            dmg = 1;
+        }
         bossHP -= damage*dmg;
+        
         dmg=1;
         if(ballImg.getAttribute("src") == "fireballup.png"){
             ballImg.setAttribute("src","fireball.png");
@@ -525,20 +524,20 @@ function draw_main_game() {
         if ((bossHP == 1000*level*0.75)||(bossHP == 1000*level*0.5)||(bossHP == 1000*level*0.25)||(bossHP == 0)) {
             is_gameover = true;
             $("#waitScreen").removeClass("offScreen");
-            if (bossHP < 1000*level*0.75 && miniGameStage == 0) {
+            if (bossHP == 1000*level*0.75) {
                 laugh.play();
                 keyGame();
             }
-            if (bossHP < 1000*level*0.5 && miniGameStage == 1) {
+            if (bossHP == 1000*level*0.5) {
                 laugh.play();
                 board_game();
                 goPhase2();
             }
-            if (bossHP < 1000*level*0.25 && miniGameStage == 2) {
+            if (bossHP == 1000*level*0.25) {
                 laugh.play();
                 wam_game();
             }
-            if (bossHP < 0) {
+            if (bossHP == 0) {
                 mainBgm.setAttribute("src","winGame.mp3");
                 mainBgm.loop = false;
                 mainBgm.play();
@@ -594,6 +593,7 @@ function draw_main_game() {
         }
     }
 }
+
 function clear() {
     
     context.clearRect(0, 0, width, height);
@@ -714,7 +714,6 @@ function keyGame(){
             //$("#key_game").addClass("offScreen");
             console.log("Success");
             EndKeyGame();
-            miniGameStage = 1;
         }
     }
     function FailKeyGame(){
@@ -845,7 +844,6 @@ function checkWin(){
         }
         if (winning_cond == (rows*columns)){
             alert("You Win");
-            miniGameStage = 2;
             $("#board_game").addClass("offScreen");
             miniGameEnd();
             document.getElementById("turns").innerText = 0;
@@ -969,7 +967,6 @@ function catchcmiss_show(){
 function molegame_winlose_chk(){
     if(mole_catch>=3+level*2){ // 두더지 게임 승리
         alert("You Win");
-        miniGameStage = 3;
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
         miniGameEnd();

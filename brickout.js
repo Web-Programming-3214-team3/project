@@ -226,14 +226,15 @@ $(document).ready(function(){
     });
 
     $("#mole").mousedown(function() {
-        if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
+        if($("#mole img:first-child").attr("src")=="koopa.png"){ // 잡기 전인 경우에만
+            breakSound.play();
             mole_catch++;
             catchcmiss_show();
             $("#mole").empty();
-            var image=$("<img>").attr("src", "catch_mole.png");
+            var image=$("<img>").attr("src", "koopa shell.png");
             image.css({
-                width: 100,
-                height: 100
+                width: 60,
+                height: 60
             });
             $("#mole").append(image);
 
@@ -713,7 +714,6 @@ function keyGame(){
     }
     function EndKeyGame() {
         $("#key_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
         miniGameEnd();
     }
 }
@@ -832,9 +832,7 @@ function checkWin(){
         if (winning_cond == (rows*columns)){
             alert("You Win");
             $("#board_game").addClass("offScreen");
-            $("#main_game").removeClass("offScreen");
-            is_gameover = false;
-            anim = requestAnimationFrame(draw_main_game);
+            miniGameEnd();
             document.getElementById("turns").innerText = 0;
             while (parent.hasChildNodes()) {
                 parent.removeChild(parent.children[0]);
@@ -896,7 +894,6 @@ function dragEnd() {
         alert("You Lose");
         bossHP += 5*damage;
         $("#board_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
         miniGameEnd();
         document.getElementById("turns").innerText = 0;
         while (parent.hasChildNodes()) {
@@ -924,14 +921,14 @@ function wam_game(){
 // 두더지 출몰 함수
 function mole_pop(){
     molegame_winlose_chk();
-    if($("#mole img:first-child").attr("src")=="mole.png"){
+    if($("#mole img:first-child").attr("src")=="koopa.png"){
         mole_miss++;
         catchcmiss_show();
     }
     // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
-    var image=$("<img>").attr("src", "mole.png");
+    var image=$("<img>").attr("src", "koopa.png");
     image.css({
         width: 100,
         height: 100
@@ -955,7 +952,6 @@ function molegame_winlose_chk(){
         alert("You Win");
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
         miniGameEnd();
     }
     if(mole_miss>=5){ // 두더지 게임 패배
@@ -964,13 +960,12 @@ function molegame_winlose_chk(){
         bossHP += 5*damage;
         clearInterval(moletimer);
         $("#whack-a-mole_game").addClass("offScreen");
-        $("#main_game").removeClass("offScreen");
         miniGameEnd();
     }
 }
 
 function miniGameEnd() {
     is_gameover = false;
-    anim - requestAnimationFrame(draw_main_game);
+    anim = requestAnimationFrame(draw_main_game);
     $("#waitScreen").addClass("offScreen");
 }

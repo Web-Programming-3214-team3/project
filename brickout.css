@@ -20,7 +20,8 @@ body {
 
 #startScreen {
     width: 800px; height: 600px;
-    background-color: skyblue;
+    background-image: url("startScreenBackground.png");
+    background-size: 800px 600px;
 }
 
 #startScreen h1 {
@@ -94,6 +95,10 @@ body {
     font-size: 40px;
     line-height: 600px;
     text-align: center;
+}
+
+#img_scene {
+    width: 800px; height: 600px;
 }
 
 #skipButton {

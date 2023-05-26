@@ -441,6 +441,7 @@ function draw_main_game() {
     clear();
     draw_life();
     context.drawImage(backImg,0,0,800,600);
+    drawLives();
     brickManager();
     //key 입력 event
     $(document).on('keydown', function(e) {
@@ -678,6 +679,20 @@ function draw_life(){
     var Boss_HP = bossHP / (10*level);
     Hp_bar.style.width=Boss_HP+"%";
     Hp_bar.innerHTML= bossHP+"/"+(1000*level)+" ("+Boss_HP+"%)";
+}
+function drawLives() {
+
+    const lifeImage = new Image();
+    lifeImage.src = 'heart.png';
+    const imageWidth = 30; // 이미지의 가로 크기
+    const imageHeight = 30; // 이미지의 세로 크기
+
+    for (let i = 0; i < my_life; i++) {
+        const x = i * (imageWidth + 10); // 이미지 간격을 조절하려면 숫자를 조정하세요.
+        const y = 10; // 이미지의 y 좌표
+
+    context.drawImage(lifeImage, x, y, imageWidth, imageHeight);
+    }
 }
 
 // Key Game 함수

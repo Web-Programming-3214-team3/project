@@ -41,16 +41,16 @@ var mainBgm = new Audio("mainBgm.mp3");
 $(document).ready(function(){
     // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
-        $(this).css({"text-shadow":"0 3px 0 darkgreen", "font-size":"35px"});
+        $(this).css({"color":"yellowgreen", "text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
     });
-    $(".menuButton").mousedown(function () {
-        $(this).css({"text-shadow":"none", "line-height":"86px"});
-    });
-    $(".menuButton").mouseup(function () {
-        $(this).css({"text-shadow":"0 3px 0 darkgreen", "line-height":"80px"});
-    });
+    // $(".menuButton").mousedown(function () {
+    //     $(this).css({"text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
+    // });
+    // $(".menuButton").mouseup(function () {
+    //     $(this).css({"text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
+    // });
     $(".menuButton").mouseout(function () {
-        $(this).css({"text-shadow":"none", "line-height":"80px", "font-size":"33px"});
+        $(this).css({"color":"white", "text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
     });
 
     // 난이도 변경 버튼 : 누를 때마다 난이도 변경(loop)
@@ -89,6 +89,12 @@ $(document).ready(function(){
         selectSound.play();
         $("#settingScreen").addClass("offScreen");
         $("#startScreen").removeClass("offScreen");
+    });
+    $("#homeButton").mouseover(function() {
+        $(this).attr("src", "home_button_mouseover.png");
+    });
+    $("#homeButton").mouseout(function() {
+        $(this).attr("src", "home_button.png");
     });
 
     // 효과음 수정

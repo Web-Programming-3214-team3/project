@@ -25,7 +25,7 @@ body {
 }
 
 #startScreen p {
-    padding: 35px 0 0 335px;
+    padding: 35px 0 50px 335px;
     font-size: 60px;
     color: white;
     text-shadow: -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
@@ -39,17 +39,23 @@ body {
     background: none;
     border: none;
     display: block;
-    margin: 15px 50px;
-    width: 160px; height: 80px;
-    font-size: 33px;
+    margin: 5px 50px;
+    width: 200px; height: 80px;
+    font-size: 50px;
     text-align: left;
+    color: white;
+    text-shadow: -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
 }
 
 #settingScreen {
+    background-image: url("settingScreenBackground.jpg");
+    background-size: 800px 600px;
     position: relative;
     overflow: hidden;
     width: 800px; height: 600px;
     background-color: skyblue;
+    color: white;
+    text-shadow: -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
 }
 
 #settingScreen #title {
@@ -71,6 +77,7 @@ body {
     float: left;
     margin: 10px 20px 10px 90px;
     font-size: 30px;
+    text-shadow: -2px 0 #000, 0 2px #000, 2px 0 #000, 0 -2px #000;
 }
 
 #settingScreen #indent {
@@ -86,12 +93,12 @@ body {
 
 #storyScreen {
     width: 800px; height: 600px;
-    background-color: lightgray;
+    background-color: gray;
 }
 
 .storyScene {
     width: 800px; height: 600px;
-    background-color: gray;
+    background-color: black;
 }
 
 .storyScene h1 {
@@ -101,7 +108,8 @@ body {
 }
 
 #img_scene {
-    width: 800px; height: 600px;
+    padding: 100px 150px 200px 150px;
+    width: 500px; height: 300px;
 }
 
 #skipButton {
@@ -115,9 +123,9 @@ body {
     z-index: 1;
 }
 
-#gameScreen {
+#main_game {
     width: 800px; height: 600px;
-    background-color: aqua;
+    background-color: gray;
 }
 
 .Hp_bar{
@@ -217,10 +225,10 @@ canvas {
 }
 
 #moleground{
+    background-image: url("wamBackground.jpg");
+    background-size: 800px 600px;
     position: relative;
-    height : 600px;
-    width : 800px;
-    background-color: lightgrey;
+    width : 800px; height : 600px;
 }
 #mole{
     position: absolute;

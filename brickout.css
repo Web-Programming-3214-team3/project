@@ -20,26 +20,29 @@ body {
 
 #startScreen {
     width: 800px; height: 600px;
-    background-image: url("startScreenBackground.png");
+    background-image: url("startScreenBackground.jpg");
     background-size: 800px 600px;
 }
 
-#startScreen h1 {
-    width: 800px;
-    text-align: center;
-    line-height: 280px;
-    font-size: 75px;
+#startScreen p {
+    padding: 35px 0 0 335px;
+    font-size: 60px;
+    color: white;
+    text-shadow: -3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000;
+}
+
+#startScreen span {
+    color: red;
 }
 
 #startScreen button {
     background: none;
-    background-image: url("button_background.png");
-    background-size: 160px 80px;
     border: none;
     display: block;
-    margin: 15px 324px;
+    margin: 15px 50px;
     width: 160px; height: 80px;
     font-size: 33px;
+    text-align: left;
 }
 
 #settingScreen {

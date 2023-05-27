@@ -671,9 +671,6 @@ function init_bricks() {
 */
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
-    context.font = "16px bitbit";
-    context.fillStyle = "#234529";
-    context.fillText("life : " + my_life, 8, 20);
 
     var Hp_bar = document.getElementById('prog');
     var Boss_HP = bossHP / (10*level);

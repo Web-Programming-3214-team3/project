@@ -126,6 +126,8 @@ body {
     width: 100%;
     background-color: red;
     border: 1px solid black;
+    overflow: visible;
+    white-space: nowrap;
 
 }
 canvas {

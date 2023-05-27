@@ -842,11 +842,11 @@ function board_game() {
         }
         $(".count_Mainbar").css("width",keyGametimer+"%");
         if(level == 1){
-            keyGametimer -= 0.1;
-        }else if(level == 2){
             keyGametimer -= 0.05;
-        }else
+        }else if(level == 2){
             keyGametimer -= 0.01;
+        }else
+            keyGametimer -= 0.005;
     },5);
     intervals.push(downloadTimer);
     var num = 0;

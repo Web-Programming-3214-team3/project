@@ -814,7 +814,7 @@ var imgOrder = [];
 var backup = [];
 var turns = 0;
 var max_turn = 0;
-
+var intervals = [];
 
 //var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
 //var imgOrder5x5 = ["1", "2", "3", "5", "4", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"];
@@ -825,7 +825,30 @@ var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "
 
 var boardGameFirst = false;
 function board_game() {
-    //$("#board_game").css({"margin":""})
+    keyGametimer = 100;
+    var downloadTimer = setInterval(function(){
+        if(keyGametimer <=0){
+            clearInterval(downloadTimer);
+            intervals = [];
+            boardGameFirst = false;
+            var parent = document.getElementById("board");
+            miniGameFail.play();
+            bossHP += 5*damage;
+            $("#board_game").addClass("offScreen");
+            miniGameEnd();
+            while (parent.hasChildNodes()) {
+                parent.removeChild(parent.children[0]);
+            }
+        }
+        $(".count_Mainbar").css("width",keyGametimer+"%");
+        if(level == 1){
+            keyGametimer -= 0.1;
+        }else if(level == 2){
+            keyGametimer -= 0.05;
+        }else
+            keyGametimer -= 0.01;
+    },5);
+    intervals.push(downloadTimer);
     var num = 0;
     if(level == 3){
         rows = 5;
@@ -897,7 +920,7 @@ function board_game() {
 }
 
 function checkWin(){
-    const parent = document.getElementById("board");
+    var parent = document.getElementById("board");
     text = "";
     var winning_cond = 0;
     for(i=1; i < parent.childNodes.length; i++){
@@ -913,9 +936,10 @@ function checkWin(){
         }
         if (winning_cond == (rows*columns)){
             miniGameClear.play();
+            clearInterval(intervals[0]);
+            intervals = [];
             $("#board_game").addClass("offScreen");
             miniGameEnd();
-            document.getElementById("turns").innerText = 0;
             while (parent.hasChildNodes()) {
                 parent.removeChild(parent.children[0]);
             }
@@ -966,23 +990,7 @@ function dragEnd() {
 
     currTile.src = otherImg;
     otherTile.src = currImg;
-    
-    turns += 1;
-    document.getElementById("turns").innerText = turns;
-    checkWin();
-    if(turns > max_turn){
-        boardGameFirst = false;
-        var parent = document.getElementById("board");
-        miniGameFail.play();
-        bossHP += 5*damage;
-        $("#board_game").addClass("offScreen");
-        miniGameEnd();
-        document.getElementById("turns").innerText = 0;
-        while (parent.hasChildNodes()) {
-            parent.removeChild(parent.children[0]);
-        }
-    }else{}
-    
+    checkWin();    
 }
 // 두더지 잡기 게임
 var moletimer;

@@ -400,7 +400,10 @@ function init_Brick(position){
         posX : position * width/4,
         posY : 0,
         check : function(){
-            if((x > this.posX && x < this.posX+200)&&(y>this.posY && y<this.posY+66)){
+            if((((x < this.posX)&&(x > this.posX-radius))||((x>this.posX+200)&&(x < this.posX+200+radius)))&&((y>this.posY) && (y<this.posY+66))){
+                return -2;
+            }
+            else if((x > this.posX && x < this.posX+200)&&((y>this.posY) && (y<this.posY+66))){
                 return -1;
             }
             else if(this.posY>600){
@@ -427,7 +430,17 @@ function brickManager(){
                 ballImg.setAttribute("src","fireball.png");
             }
             break;
-        }else if(C == 0){
+        }else if(C == -2){
+            bricks.splice(i,1);
+            breakSound.play();
+            dx = -dx;
+            dmg=1;
+            if(ballImg.src == "fireballup.png"){
+                ballImg.setAttribute("src","fireball.png");
+            }
+            break;
+        }
+        else if(C == 0){
             bricks.splice(i,1);
             missSound.play();
             my_life--;
@@ -572,17 +585,18 @@ function draw_main_game() {
         }
     }
 
-    //바닥에 부딪히기 직전에
+    //바닥에 부딪히기 전에
     else if (y >= height - radius - paddle_height) {
-        //paddle에 부딪힌다면
         if(isBall){
-            if (x+radius >= paddlex && x+radius <= paddlex + paddle_width) {
+            //paddle에 부딪힌다면
+            if ((x >= paddlex && x <= paddlex + paddle_width)&&(y==height-radius-paddle_height)) {
                 dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
                 dy = -dy;
                 paddleEffect.play();
             }
+           
             else {  //paddle에 부딪히지 않고
-                if (y >= height - radius) { // 바닥에 부딪힌다면
+                if (y == height - radius) { // 바닥에 부딪힌다면
                     isBall = false;
                     dy = -dy;
                     my_life--;

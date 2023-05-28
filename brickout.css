@@ -145,7 +145,11 @@ canvas {
     width: 800px; height: 580px;
 }
 #score_display{
-        float:right;
+        position:absolute;
+        z-index: 2;
+        top:7px;right:20px;
+        color: white;
+        font-size: 20px;
 }
 
 #key_game {

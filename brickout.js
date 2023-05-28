@@ -626,6 +626,9 @@ function draw_main_game() {
         }
 
     }
+    if(score<=0){
+        is_gameover = true;
+    }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
         clearInterval(generate);

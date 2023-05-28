@@ -28,7 +28,7 @@ var move_left = false, move_right = false;
 
 var context;
 var animation;
-var start_time;
+var score =100000;
 var intervalId;
 
 var my_life = (4 - level) * 3;
@@ -470,6 +470,7 @@ function draw_main_game() {
     context.drawImage(backImg,0,0,800,600);
     drawLives();
     brickManager();
+    updateScore();
 
     //key 입력 event
     $(document).on('keydown', function(e) {
@@ -642,7 +643,7 @@ function draw_main_game() {
         }
     } 
     else {
-        intervalId = setInterval(updateElapsedTime, 1000);
+        
         anim = window.requestAnimationFrame(draw_main_game);
         if(generate==null){
             generate = setInterval(brickInterval,initInterval);
@@ -723,17 +724,12 @@ function drawLives() {
     context.drawImage(lifeImage, x, y, imageWidth, imageHeight);
     }
 }
-function updateElapsedTime() {
-    var current_time = new Date(); // 현재 시간
-    var elapsed_time = current_time - start_time; // 경과한 시간 계산 (밀리초 단위)
-  
-    // 걸린 시간을 적절한 형식으로 변환하여 출력
-    var minutes = Math.floor(elapsed_time / 60000); // 분 계산
-    var seconds = Math.floor((elapsed_time % 60000) / 1000); // 초 계산
-
+function updateScore() {
+    
+    score-=1;
     // 출력을 원하는 HTML 요소에 경과 시간을 동적으로 표시
-    var timeDisplay = document.getElementById('time-display');
-    timeDisplay.textContent = '경과 시간: ' + minutes + ' : ' + seconds ;
+    var scoreDisplay = document.getElementById('score_display');
+    scoreDisplay.textContent = 'Score: '+score;
 }
 // Key Game 함수
 var keyGameFirst = false;

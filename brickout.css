@@ -144,10 +144,8 @@ body {
 canvas {
     width: 800px; height: 580px;
 }
-#time_display{
-    position: absolute;
-    top: 10px; right: 40px;
-    z-index: 2;
+#score_display{
+        float:right;
 }
 
 #key_game {

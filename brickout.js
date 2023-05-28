@@ -3,8 +3,8 @@ var bossHP = 1000*level;    // 보스체력
 var damage = 50;			// 피해량
 var velocity = level;       // 벽돌 떨어지는 속도, 미니게임 속도
 
-var soundEffect = 5;        // 효과음 크기
-var BGM = 5;                // 배경음악 크기
+var soundEffect = 5.0;        // 효과음 크기
+var BGM = 5.0;                // 배경음악 크기
 var skip = false;           // 스토리 스킵 여부
 
 var keyGameCount = 5;       // Key Game 반복 횟수
@@ -102,12 +102,14 @@ $(document).ready(function(){
         $("#soundEffectNum").text($(this).val());
         soundEffect = parseInt($(this).val());
         console.log("sound effect :", soundEffect);
+        effectSoundVolume();
     });
     // 배경음악 수정
     $("#BGM").on("click", function () {
         $("#BGMNum").text($(this).val());
         BGM = parseInt($(this).val());
         mainBgm.volume = BGM/10;
+        console.log(mainBgm.volume);
         console.log("BGM :", BGM);
     });
 
@@ -334,7 +336,6 @@ let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
 let brickImg = new Image();
 let bricks = []; // 벽돌듯
-let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh, miniGameFail, miniGameClear, selectSound, finalPhase, bounce];
 
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -351,6 +352,9 @@ var finalPhase = new Audio("finalPhase.mp3");
 var bounce = new Audio("bounce.mp3");
 var hitstack = 0;
 var isBall = false; // 공이 있는지
+
+let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh,startEff, miniGameFail, miniGameClear, selectSound, finalPhase, bounce];
+
 //main game 함수
 function main_game() {
     mainBgm.loop = true;
@@ -379,6 +383,7 @@ function main_game() {
 function effectSoundVolume(){
     for(var i = 0; i<effectSound.length;i++){
         effectSound[i].volume = soundEffect/10;
+        console.log(effectSound[i].volume);
     }
 }
 var generate;

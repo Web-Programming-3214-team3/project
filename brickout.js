@@ -334,8 +334,9 @@ function goPhase2(){
 let backImg = new Image(); // 배경이미지
 let ballImg = new Image(); // 볼 이미지
 let marioImg = new Image(); // 마리오 이미지
-let brickImg = new Image();
-let bricks = []; // 벽돌듯
+let brickImg = new Image(); // 벽돌 이미지
+let bossImg = new Image(); // 보스 이미지
+let bricks = []; // 벽돌들
 
 let hit = [hit1,hit2];
 var paddleEffect = new Audio("fireball.mp3");
@@ -373,9 +374,8 @@ function main_game() {
     backImg.src = "background.png";
     ballImg.src = "fireball.png";
     marioImg.src = "mario.png";
-    marioImg.width = "100px";
-    marioImg.height = "20px";
     brickImg.src = "brick.png";
+    bossImg.src = "boss.png";
     brickInterval();
     brickGenerator();
     animation = window.requestAnimationFrame(draw_main_game);
@@ -470,6 +470,7 @@ function draw_main_game() {
     clear();
     draw_life();
     context.drawImage(backImg,0,0,800,600);
+    context.drawImage(bossImg,245,300,310,260);
     drawLives();
     brickManager();
     updateScore();
@@ -556,6 +557,11 @@ function draw_main_game() {
         }
         bossHP -= damage*dmg;
         
+        bossImg.src = "bossDamaged.png";
+        setTimeout(function () {
+            bossImg.src = "boss.png";
+        }, 500);
+
         dmg=1;
         if(ballImg.getAttribute("src") == "fireballup.png"){
             ballImg.setAttribute("src","fireball.png");

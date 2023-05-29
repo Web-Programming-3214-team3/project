@@ -278,4 +278,5 @@ canvas {
 .miniGame {
     position: absolute;
     top: 0;
+    border: 3px solid black;
 }

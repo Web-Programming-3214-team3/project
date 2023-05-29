@@ -620,10 +620,12 @@ function draw_main_game() {
                     my_life--;
                     draw_life();
                     missSound.play();
+                    if(my_life <= 0){
+                        is_gameover = true;
+                    }
                 }
             }
         }
-
     }
     if(score<=0 || my_life<=0){
         is_gameover = true;
@@ -634,7 +636,7 @@ function draw_main_game() {
         clearInterval(intervalId);  
 
         generate = null;
-        if (my_life <= 0) {
+        if (my_life <= 0||score<=0) {
             mainBgm.setAttribute("src","gameover.mp3");
             mainBgm.loop = false;
             mainBgm.play();
@@ -720,7 +722,7 @@ function drawLives() {
     const imageHeight = 30; // 이미지의 세로 크기
 
     for (let i = 0; i < my_life; i++) {
-        const x = i * (imageWidth + 10); // 이미지 간격을 조절하려면 숫자를 조정하세요.
+        const x = i * (imageWidth + 10)+10;
         const y = 10; // 이미지의 y 좌표
 
     context.drawImage(lifeImage, x, y, imageWidth, imageHeight);
@@ -728,7 +730,7 @@ function drawLives() {
 }
 function updateScore() {
     
-    score-=1;
+    score-=1000;
     // 출력을 원하는 HTML 요소에 경과 시간을 동적으로 표시
     var scoreDisplay = document.getElementById('score_display');
     scoreDisplay.textContent = 'Score: '+score;

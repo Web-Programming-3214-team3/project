@@ -373,6 +373,8 @@ function main_game() {
     backImg.src = "background.png";
     ballImg.src = "fireball.png";
     marioImg.src = "mario.png";
+    marioImg.width = "100px";
+    marioImg.height = "20px";
     brickImg.src = "brick.png";
     brickInterval();
     brickGenerator();
@@ -492,7 +494,7 @@ function draw_main_game() {
         if(e.which == 32 && !isBall){
             x=paddlex+50;
             dx=0;
-            y=height-paddle_height-15;
+            y=height-paddle_height-45-radius;
             dy = -dy;
             isBall = true;
         }
@@ -602,10 +604,10 @@ function draw_main_game() {
     }
 
     //바닥에 부딪히기 전에
-    else if (y >= height - radius - paddle_height) {
+    else if (y >= height - radius - paddle_height - 40) {
         if(isBall){
             //paddle에 부딪힌다면
-            if ((x >= paddlex && x <= paddlex + paddle_width)&&(y==height-radius-paddle_height)) {
+            if ((x >= paddlex && x <= paddlex + paddle_width)&&(y>=height-radius-paddle_height-40 && y<=height-radius-40)) {
                 dx = -((paddlex + (paddle_width/2) - x)/(paddle_width)) * 10;
                 dy = -dy;
                 paddleEffect.play();
@@ -618,15 +620,12 @@ function draw_main_game() {
                     my_life--;
                     draw_life();
                     missSound.play();
-                    if(my_life <= 0){
-                        is_gameover = true;
-                    }
                 }
             }
         }
 
     }
-    if(score<=0){
+    if(score<=0 || my_life<=0){
         is_gameover = true;
     }
     if (is_gameover) {
@@ -678,7 +677,7 @@ function rect(x, y, w, h) {
     context.fill();
 }
 function paddle(x,y,w,h){
-    context.drawImage(marioImg,x,y-40,w,100);
+    context.drawImage(marioImg,x,y-40,w,h+40);
 }
 
 //main game의 paddle 설정

@@ -473,30 +473,30 @@ function draw_main_game() {
     updateScore();
 
     //key 입력 event
-    $(document).on('keydown', function(e) {
-        if (e.which == 37) {
-            move_left = true;
-        } 
-        else if (e.which == 39) {
-            move_right = true;
-        }
-    });
-    $(document).on('keyup', function(e) {
-        if (e.which == 37) {
-           move_left = false;
-        } else if (e.which == 39) {
-         move_right = false;
-        }
-    });
-    $(document).on('keyup',function(e){
-        if(e.which == 32 && !isBall){
-            x=paddlex+50;
-            dx=0;
-            y=height-paddle_height-15;
-            dy = -dy;
-            isBall = true;
-        }
-    })
+        $(document).on('keydown', function(e) {
+            if (e.which == 37) {
+                move_left = true;
+            } 
+            else if (e.which == 39) {
+                move_right = true;
+            }
+        });
+        $(document).on('keyup', function(e) {
+            if (e.which == 37) {
+               move_left = false;
+            } else if (e.which == 39) {
+             move_right = false;
+            }
+        });
+        $(document).on('keyup',function(e){
+            if(e.which == 32 && !isBall){
+                x=paddlex+50;
+                dx=0;
+                y=height-paddle_height-15;
+                dy = -dy;
+                isBall = true;
+            }
+        })
     //ball 과 paddle 그리기
     if(isBall){
 
@@ -624,7 +624,6 @@ function draw_main_game() {
                 }
             }
         }
-
     }
     if(score<=0){
         is_gameover = true;
@@ -635,7 +634,7 @@ function draw_main_game() {
         clearInterval(intervalId);  
 
         generate = null;
-        if (my_life <= 0) {
+        if (my_life <= 0||score<=0) {
             mainBgm.setAttribute("src","gameover.mp3");
             mainBgm.loop = false;
             mainBgm.play();
@@ -721,7 +720,7 @@ function drawLives() {
     const imageHeight = 30; // 이미지의 세로 크기
 
     for (let i = 0; i < my_life; i++) {
-        const x = i * (imageWidth + 10); // 이미지 간격을 조절하려면 숫자를 조정하세요.
+        const x = i * (imageWidth + 10)+10;
         const y = 10; // 이미지의 y 좌표
 
     context.drawImage(lifeImage, x, y, imageWidth, imageHeight);
@@ -729,7 +728,7 @@ function drawLives() {
 }
 function updateScore() {
     
-    score-=1;
+    score-=1000;
     // 출력을 원하는 HTML 요소에 경과 시간을 동적으로 표시
     var scoreDisplay = document.getElementById('score_display');
     scoreDisplay.textContent = 'Score: '+score;

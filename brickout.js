@@ -1029,7 +1029,7 @@ function wam_game(){
 function mole_pop(){
     molegame_winlose_chk();
     if($("#mole img:first-child").attr("src")=="koopa.png"){
-        mole_miss++;
+        mole_miss++; // 잡지 못한 경우
         catchcmiss_show();
     }
     // 화면 내 랜덤한 좌표에 두더지 출몰

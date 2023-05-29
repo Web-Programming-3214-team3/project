@@ -1027,8 +1027,7 @@ function mole_pop(){
     // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
-    if(randomX<250 && randomY<50){ //잡은 횟수 놓친 횟수 글자를 가릴 경우 처리
-        randomX+=250;
+    if(randomY<50){ //잡은 횟수 놓친 횟수 글자 또는 score를 가릴 경우 처리
         randomY+=50;
     }
     var image=$("<img>").attr("src", "koopa.png");

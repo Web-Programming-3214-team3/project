@@ -498,7 +498,7 @@ function draw_main_game() {
             dy = -dy;
             isBall = true;
         }
-    })
+    });
     //ball 과 paddle 그리기
     if(isBall){
 
@@ -729,8 +729,7 @@ function drawLives() {
     }
 }
 function updateScore() {
-    
-    score-=1000;
+    score-=3*level;
     // 출력을 원하는 HTML 요소에 경과 시간을 동적으로 표시
     var scoreDisplay = document.getElementById('score_display');
     scoreDisplay.textContent = 'Score: '+score;

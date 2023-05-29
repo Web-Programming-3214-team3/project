@@ -101,14 +101,14 @@ body {
     background-color: black;
 }
 
-.storyScene h1 {
-    font-size: 40px;
-    line-height: 600px;
-    text-align: center;
+#caption {
+    margin: 20px 160px;
+    font-size: 30px;
+    color: white;
 }
 
 #img_scene {
-    padding: 100px 150px 200px 150px;
+    padding: 100px 150px 0 150px;
     width: 500px; height: 300px;
 }
 
@@ -141,9 +141,11 @@ body {
     white-space: nowrap;
 
 }
+
 canvas {
     width: 800px; height: 580px;
 }
+
 #score_display{
         position:absolute;
         z-index: 2;

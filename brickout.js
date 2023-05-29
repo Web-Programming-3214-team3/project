@@ -247,13 +247,13 @@ $(document).ready(function(){
             breakSound.play();
             mole_catch++;
             catchcmiss_show();
-            $("#mole").empty();
+            $("#mole").empty(); // 원래 이미지 삭제
             var image=$("<img>").attr("src", "koopa shell.png");
             image.css({
                 width: 60,
                 height: 60
             });
-            $("#mole").append(image);
+            $("#mole").append(image); // 잡은 후 이미지 새로 추가
 
             clearInterval(moletimer);
             setTimeout(function() { // 잡았을 시 잠시 대기
@@ -1008,6 +1008,7 @@ function dragEnd() {
     otherTile.src = currImg;
     checkWin();    
 }
+
 // 두더지 잡기 게임
 var moletimer;
 var wamFirst = false;
@@ -1034,20 +1035,20 @@ function mole_pop(){
     // 화면 내 랜덤한 좌표에 두더지 출몰
     var randomX = Math.floor(Math.random() * (700));
     var randomY = Math.floor(Math.random() * (500));
-    if(randomY<50){ //잡은 횟수 놓친 횟수 글자 또는 score를 가릴 경우 처리
-        randomY+=50;
+    if((randomY<50 && randomX<250) || (randomX >400 && randomY<50)){
+        randomY+=50; //잡은 횟수 놓친 횟수 또는 score 가릴 경우 처리
     }
     var image=$("<img>").attr("src", "koopa.png");
     image.css({
         width: 100,
         height: 100
     });
-    $("#mole").empty();
-    $("#mole").css({
+    $("#mole").empty(); // 이전 이미지 삭제
+    $("#mole").css({ // 좌표 부여
         left: randomX+"px",
         top: randomY+"px"
     });
-    $("#mole").append(image);
+    $("#mole").append(image); // 이미지 추가
 }
 
 // 두더지 잡은 횟수, 놓친 횟수 표시 함수

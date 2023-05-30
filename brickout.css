@@ -290,6 +290,16 @@ canvas {
     text-align: center;
     text-shadow: 10px 10px 0 gray;
 }
+.endingScore{
+    position: absolute;
+    top:100px;
+    width: 800px;
+    font-size: 80px;
+    text-align: center;
+    text-shadow: 10px 10px 0 gray;
+    color: white;
+}
+
 
 .count {
     position: fixed;

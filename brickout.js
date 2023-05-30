@@ -603,9 +603,11 @@ function draw_main_game() {
             if (bossHP == 0) {
                 mainBgm.setAttribute("src","winGame.mp3");
                 mainBgm.loop = false;
-                mainBgm.play();
+                mainBgm.play();     
                 $("#main_game").addClass("offScreen");
+                $(".endingScore").append("Score : "+score);
                 $("#winEndingScreen").removeClass("offScreen");
+
                 return;
             }
         }

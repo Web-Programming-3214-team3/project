@@ -358,6 +358,7 @@ let effectSound = [paddleEffect, breakSound, missSound,hit1,hit2,laugh,startEff,
 
 //main game 함수
 function main_game() {
+    $("#spaceTab").removeClass("offScreen");
     mainBgm.loop = true;
     mainBgm.src = "phase1.mp3";
     mainBgm.play();
@@ -498,11 +499,11 @@ function draw_main_game() {
             y=height-paddle_height-45-radius;
             dy = -dy;
             isBall = true;
+            $("#spaceTab").addClass("offScreen");
         }
     });
     //ball 과 paddle 그리기
     if(isBall){
-
         ball(x, y, radius);
         x += dx;
         y += dy; 
@@ -622,6 +623,7 @@ function draw_main_game() {
             else {  //paddle에 부딪히지 않고
                 if (y == height - radius) { // 바닥에 부딪힌다면
                     isBall = false;
+                    $("#spaceTab").removeClass("offScreen");
                     dy = -dy;
                     my_life--;
                     draw_life();
@@ -638,6 +640,7 @@ function draw_main_game() {
     }
     if (is_gameover) {
         window.cancelAnimationFrame(anim); // 게임 종료
+        $("#spaceTab").addClass("offScreen");
         clearInterval(generate);
         clearInterval(intervalId);  
 

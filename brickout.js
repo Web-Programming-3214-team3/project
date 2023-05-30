@@ -200,6 +200,7 @@ $(document).ready(function(){
     $("#key_game_textField").keydown(function(e){
         var keys = $(".input_keys").get();
         var i = 0;
+
         while(keys[i].style.display=="none"){
             i++;
         }

@@ -34,21 +34,13 @@ var intervalId;
 var my_life = (4 - level) * 3;
 
 var mainBgm = new Audio("mainBgm.mp3");
-// main game canvas 기본 세팅
-//var mainGameCanvas = document.getElementById("mainGameCanvas");
-//var mainGameContext = mainGameCanvas.getContext('2d');
+
 
 $(document).ready(function(){
     // 시작 화면 버튼 설정
     $(".menuButton").mouseover(function () {
         $(this).css({"color":"yellowgreen", "text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
     });
-    // $(".menuButton").mousedown(function () {
-    //     $(this).css({"text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
-    // });
-    // $(".menuButton").mouseup(function () {
-    //     $(this).css({"text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
-    // });
     $(".menuButton").mouseout(function () {
         $(this).css({"color":"white", "text-shadow":"-3px 0 #000, 0 3px #000, 3px 0 #000, 0 -3px #000"});
     });
@@ -262,24 +254,6 @@ $(document).ready(function(){
             }, 100);
         }
     });
-    // $("#mole").on("click",function(){
-    //     if($("#mole img:first-child").attr("src")=="mole.png"){ // 잡기 전인 경우에만
-    //         mole_catch++;
-    //         catchcmiss_show();
-    //         $("#mole").empty();
-    //         var image=$("<img>").attr("src", "catch_mole.png");
-    //         image.css({
-    //             width: 100,
-    //             height: 100
-    //         });
-    //         $("#mole").append(image);
-
-    //         clearInterval(moletimer);
-    //         setTimeout(function() { // 잡았을 시 잠시 대기
-    //             moletimer=setInterval(mole_pop,850-100*level);
-    //         }, 100);
-    //     }
-    // });
 
 
     // 보스의 피가 75%인 경우 Key Game 실행
@@ -512,16 +486,6 @@ function draw_main_game() {
 
     paddle(paddlex, height - paddle_height, paddle_width, paddle_height);
 
-    /*
-    //draw bricks
-    for (i = 0; i < row_number; i++) { 
-        for (j = 0; j < col_number; j++) {
-            if (bricks[i][j] >= 30) {    
-                rect(j * brick_width, i * brick_height + 200, brick_width - 1, brick_height -1); // +200 지움
-            }
-        }
-    }
-    */
     //paddle 움직이기
     if (move_left && paddlex > 0) { // 왼쪽으로 이동
         paddlex -= 10;
@@ -529,20 +493,7 @@ function draw_main_game() {
     if (move_right && paddlex + paddle_width < width) { // 오른쪽으로 이동
         paddlex += 10;
     }
-    /*
-    //벽돌에 부딪혔을 때
-    if(y>200){
-        var row = Math.floor( (y-200)  / (brick_height) );
-    }
-    
-    var col = Math.floor( x / (brick_width));
-    if (row < row_number) { 
-        if (bricks[row][col] >= 30) {
-            dy = -dy;
-            bricks[row][col] = 0;
-        }
-    }
-*/
+
     //벽에 부딪혔을 때
     if (x >= width - radius || x <= 0 + radius) {
         bounce.play();
@@ -674,12 +625,6 @@ function clear() {
 
 // 공 그리기
 function ball(x, y, r) {
-    /*
-    context.beginPath();
-    context.arc(x, y, r, 0, Math.PI * 2, true);
-    context.closePath();
-    context.fill();
-    */
     context.drawImage(ballImg,x,y,2*r,2*r);
 }
 
@@ -700,24 +645,7 @@ function init_paddle() {
     paddle_height = 20;
     paddle_width = 100;
 }
-/*
-//main game의 벽돌 설정
-function init_bricks() {
-    row_number = 3;
-    col_number = 4;
-    PADDING = 5;
-    brick_width = (width / col_number);
-    brick_height = 50;
 
-    bricks = new Array(row_number);
-    for (i = 0; i < row_number; i++) {
-        bricks[i] = new Array(col_number);
-        for (j = 0; j < col_number; j++) {
-            bricks[i][j] = (Math.random()*99)+1;
-        }
-    }
-}
-*/
 //main game에 사용자 life와 보스 Hp 출력
 function draw_life(){
 
@@ -838,9 +766,6 @@ var turns = 0;
 var max_turn = 0;
 var intervals = [];
 
-//var imgOrder3x3 = ["1", "3", "2", "4", "5", "6", "7", "8", "9"];
-//var imgOrder5x5 = ["1", "2", "3", "5", "4", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25"];
-//var imgOrder4x4 = ["1", "2", "4", "3", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
 var imgOrder3x3 = ["4", "2", "8", "5", "1", "6", "7", "9", "3"];
 var imgOrder5x5 = ["13", "3", "6", "5", "11", "9", "20", "24", "21", "4", "12", "17", "23", "18", "15", "7", "22", "10", "1", "16", "8", "14", "19", "2", "25"];
 var imgOrder4x4 = ["15", "3", "16", "14", "7", "13", "6", "1", "8", "12", "2", "4", "10", "9", "5", "11"];
